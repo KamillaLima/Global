@@ -27,22 +27,22 @@ public class PessoaClienteDAO extends Repository {
         return retorno;
     }
 	
-	public static void inserirCliente(PessoaCliente p){
+	public static PessoaCliente inserirCliente(PessoaCliente p){
 		String SQL = "INSERT INTO T_SPC_USUARIO (cd_usuario,nm_completo,ds_genero,dt_nascimento,ds_email,ds_senha,nr_cpf) values (?,?,?,?,?,?,?)";
 		CallableStatement cs = null;
 		try {
+			int id = retornarTamanho();
             cs = getConnection().prepareCall(SQL);
-            cs.setInt(1, retornarTamanho() );
+            cs.setInt(1, id);
             cs.setString(2,p.getNome());
             cs.setString(3,p.getSexo());
             cs.setDate(4, Date.valueOf(p.getDataNasc()));
             cs.setString(5,p.getEmail() );
             cs.setString(6,p.getSenha());
             cs.setString(7,p.getCpf());
-           
             cs.executeUpdate();
             
-            
+            p.setId(id);
         }catch (SQLException e) {
             System.out.println("Erro na execução do SQL" + e.getMessage());
         } finally {
@@ -56,6 +56,7 @@ public class PessoaClienteDAO extends Repository {
             	Repository.closeConnection();
             }
         }
+		return p;
 	
 	}
 	

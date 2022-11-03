@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 
 
 public class Usuario {
-
+	
+	private int id;
 	@NotBlank(message = "É necessário informar um nome.")
 	private String nome;
 
@@ -35,6 +36,16 @@ public class Usuario {
 		this.telefone = telefone;
 		this.email = email;
 		this.senha = senha;
+	}
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNome() {

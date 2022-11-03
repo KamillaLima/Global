@@ -33,6 +33,8 @@ public class PessoaCliente extends Usuario {
 		this.dataNasc = dataNasc;
 		this.cpf = cpf;
 	}
+	
+	
 
 	public String getSexo() {
 		return sexo;
