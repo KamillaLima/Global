@@ -6,7 +6,7 @@ import br.com.fiap.spaceCar.model.Oficina;
 public class Main {
 
 	public static void main(String[] args) {
-		Endereco endereco = new Endereco("rua jupiter", 23, "serraria", "diadema", "SP");
+		
 
 		/*
 		 * CADASTRAR PESSOA
@@ -29,7 +29,7 @@ public class Main {
 		/*
 		 * CADASTRAR CARRO
 		 * 	Carro carro = new Carro("abc1234",LocalDate.of(2012, 10, 14),LocalDate.of(2012, 04, 12),"12345678901472583","Carro",2,4,"diesel",10,12,2.0,100000,"manual","meu carro é uma bosta");
-		CarroDAO.inserirCarro(4, carro);
+		   CarroDAO.inserirCarro(4, carro);
 		
 		LISTAR CARRO
 		List<Carro>carros = new ArrayList<>();
@@ -62,10 +62,18 @@ public class Main {
 		
 		 */
 		
+		/*INSERIR UM ENDEREÇO PARA UM CLIENTE
+		Endereco endereco1 = new Endereco("rua marte", 233, "conceição", "diadema", "SP","bloco 3,apartamento 12");
+		endereco1 = EnderecoDAO.inserirEndereco(endereco1);
+		EnderecoDAO.inserirEndCliente(endereco1.getId(), 4);
+		
 	
-		
-		
-		
+		INSERIR UM ENDEREÇO PARA UMA OFICINA
+		Endereco endereco = new Endereco("Rua jupiter",656,"Liberdade","São Paulo","SP","esquina 8");
+		endereco = EnderecoDAO.inserirEndereco(endereco);
+		EnderecoDAO.inserirEnderecoOficina(endereco.getId(), 1);
+		*/
+	
 	}
 
 }

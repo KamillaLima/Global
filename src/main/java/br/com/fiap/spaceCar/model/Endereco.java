@@ -6,6 +6,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 public class Endereco {
 	
+	private int id;
 	@NotBlank(message = "É necessário informar um logradouro")
 	private String logradouro;
 	@NotNull(message = "É necessário informar o número da residência")
@@ -97,6 +98,14 @@ public class Endereco {
 
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

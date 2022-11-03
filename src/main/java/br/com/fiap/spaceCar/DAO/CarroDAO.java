@@ -15,6 +15,7 @@ public class CarroDAO extends Repository {
 
 	/**
 	 * Método para retornar um id de um carro
+	 * 
 	 * @return número inteiro que será o id de um carro
 	 */
 	public static int retornarId() {
@@ -33,12 +34,12 @@ public class CarroDAO extends Repository {
 		}
 		return retorno;
 	}
-	
-	
+
 	/**
 	 * Método para cadastrar um carro
+	 * 
 	 * @param codigoCliente -- código do cliente que irá adicionar um carro
-	 * @param c -- classe Carro
+	 * @param c             -- classe Carro
 	 * @return objeto carro
 	 */
 	public static Carro inserirCarro(int codigoCliente, Carro c) {
@@ -86,55 +87,47 @@ public class CarroDAO extends Repository {
 		}
 		return c;
 	}
-	
+
 	/**
 	 * Método para listar todos os carros
+	 * 
 	 * @return List com todos os carros cadastrados
 	 */
 	public static List<Carro> buscarCarro() {
 		List<Carro> carros = new ArrayList<>();
-		String sql = "SELECT\n"+
-				"    cd_carro,\n"+
-				"    cd_usuario,\n"+
-				"    ds_placa,\n"+
-				"    nr_ano_fabricacao,\n"+
-				"    nr_ano_modelo,\n"+
-				"    ds_chassi,\n"+
-				"    ds_marca,\n"+
-				"    nr_portas,\n"+
-				"    nr_passageiros,\n"+
-				"    ds_combustivel,\n"+
-				"    nr_potencia,\n"+
-				"    nr_cilindradas,\n"+
-				"    ds_motor,\n"+
-				"    nr_km_rodado,\n"+
-				"    ds_cambio,\n"+
-				"    ds_problema\n"+
-				"FROM\n"+
-				"    t_spc_carros";
-	
+		String sql = "SELECT\n" + "    cd_carro,\n" + "    cd_usuario,\n" + "    ds_placa,\n"
+				+ "    nr_ano_fabricacao,\n" + "    nr_ano_modelo,\n" + "    ds_chassi,\n" + "    ds_marca,\n"
+				+ "    nr_portas,\n" + "    nr_passageiros,\n" + "    ds_combustivel,\n" + "    nr_potencia,\n"
+				+ "    nr_cilindradas,\n" + "    ds_motor,\n" + "    nr_km_rodado,\n" + "    ds_cambio,\n"
+				+ "    ds_problema\n" + "FROM\n" + "    t_spc_carros";
+
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		try {
 
 			ps = getConnection().prepareStatement(sql);
 			rs = ps.executeQuery();
-			while (rs.next()) {
-				String placa = rs.getString("ds_placa");
-				LocalDate nr_ano_fabricacao = rs.getDate("nr_ano_fabricacao").toLocalDate();
-				LocalDate ano_modelo = rs.getDate("nr_ano_modelo").toLocalDate();
-				String chassi = rs.getString("ds_chassi");
-				String marca = rs.getString("ds_marca");
-				int portas = rs.getInt("nr_portas");
-				int passageiros = rs.getInt("nr_passageiros");
-				String combustivel = rs.getString("ds_combustivel");
-				int potencia = rs.getInt("nr_potencia");
-				int cilindradas = rs.getInt("nr_cilindradas");
-				double motor = rs.getDouble("ds_motor");
-				int km_rodado= rs.getInt("nr_km_rodado");
-				String cambio = rs.getString("ds_cambio");
-				String problema = rs.getString("ds_problema");
-				carros.add(new Carro(placa,nr_ano_fabricacao,ano_modelo,chassi,marca,portas,passageiros,combustivel,potencia,cilindradas,motor,km_rodado,cambio,problema));
+			if (rs.isBeforeFirst()) {
+				while (rs.next()) {
+					String placa = rs.getString("ds_placa");
+					LocalDate nr_ano_fabricacao = rs.getDate("nr_ano_fabricacao").toLocalDate();
+					LocalDate ano_modelo = rs.getDate("nr_ano_modelo").toLocalDate();
+					String chassi = rs.getString("ds_chassi");
+					String marca = rs.getString("ds_marca");
+					int portas = rs.getInt("nr_portas");
+					int passageiros = rs.getInt("nr_passageiros");
+					String combustivel = rs.getString("ds_combustivel");
+					int potencia = rs.getInt("nr_potencia");
+					int cilindradas = rs.getInt("nr_cilindradas");
+					double motor = rs.getDouble("ds_motor");
+					int km_rodado = rs.getInt("nr_km_rodado");
+					String cambio = rs.getString("ds_cambio");
+					String problema = rs.getString("ds_problema");
+					carros.add(new Carro(placa, nr_ano_fabricacao, ano_modelo, chassi, marca, portas, passageiros,
+							combustivel, potencia, cilindradas, motor, km_rodado, cambio, problema));
+				}
+			} else {
+				System.out.println("Nenhum carro foi cadastrado");
 			}
 
 			return carros;
@@ -155,6 +148,5 @@ public class CarroDAO extends Repository {
 		}
 		return carros;
 	}
-	
-	
+
 }
