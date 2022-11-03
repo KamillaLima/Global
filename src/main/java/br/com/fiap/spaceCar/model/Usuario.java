@@ -1,17 +1,20 @@
 package br.com.fiap.spaceCar.model;
 
 import java.util.ArrayList;
-
 import jakarta.validation.constraints.NotBlank;
+
 
 public class Usuario {
 
 	@NotBlank(message = "É necessário informar um nome.")
 	private String nome;
+
 	@NotBlank(message = "É necessário informar um endereço.")
 	private Endereco endereco;
+
 	@NotBlank(message = "É necessário informar pelo menos um telefone.")
 	private ArrayList<String> telefone;
+
 	@NotBlank(message = "É necessário informar um email.")
 	private String email;
 	@NotBlank(message = "É necessário informar uma senha.")
