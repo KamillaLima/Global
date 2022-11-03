@@ -9,11 +9,14 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 public class Carro {
 	
+	
+	private int id;
 	@NotBlank(message="É necessário informar a placa do automóvel")
 	private String placa;
 	
 	@PastOrPresent(message = "A data de fabricação deve ser menor ou igual a hoje")
 	private LocalDate anoFabricacao;
+	
 	@PastOrPresent(message = "A data do modelo deve ser menor ou igual a hoje")
 	private LocalDate anoModelo;
 	
@@ -44,7 +47,7 @@ public class Carro {
 	
 	@NotNull(message= "É necessário informar o motor do automóvel")
 	@PositiveOrZero(message = "O valor do motor deve ser maior do que zero")
-	private float motor;
+	private double motor;
 	
 	@NotNull(message= "É necessário informar os quilômetros rodados do automóvel")
 	private int kmRodado;
@@ -55,6 +58,7 @@ public class Carro {
 	@NotBlank(message = "É necessário informar a descrição do problema do automóvel")
 	private String descricaoProblema;
 
+	
 	public Carro(@NotBlank(message = "É necessário informar a placa do automóvel") String placa,
 			@PastOrPresent(message = "A data de fabricação deve ser menor ou igual a hoje") LocalDate anoFabricacao,
 			@PastOrPresent(message = "A data do modelo deve ser menor ou igual a hoje") LocalDate anoModelo,
@@ -65,7 +69,7 @@ public class Carro {
 			@NotBlank(message = "É necessário informar o tipo do combustível do automóvel") String tipoCombustivel,
 			@NotNull(message = "É necessário informar a potência do automóvel") @PositiveOrZero(message = "A potência do automóvel deve ser maior do que zero") int potencia,
 			@NotNull(message = "É necessário informar a quantidade de cilindradas do automóvel") @PositiveOrZero(message = "A quantidade de cilindradas do automóvel deve ser maior do que zero") int cilindradas,
-			@NotNull(message = "É necessário informar o motor do automóvel") @PositiveOrZero(message = "O valor do motor deve ser maior do que zero") float motor,
+			@NotNull(message = "É necessário informar o motor do automóvel") @PositiveOrZero(message = "O valor do motor deve ser maior do que zero") double motor,
 			@NotNull(message = "É necessário informar os quilômetros rodados do automóvel") int kmRodado,
 			@NotBlank(message = "É necessário informar o tipo do câmbio do automóvel") String tipoCambio,
 			@NotBlank(message = "É necessário informar a descrição do problema do automóvel") String descricaoProblema) {
@@ -88,6 +92,14 @@ public class Carro {
 
 	public Carro() {
 		super();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getPlaca() {
@@ -170,11 +182,11 @@ public class Carro {
 		this.cilindradas = cilindradas;
 	}
 
-	public float getMotor() {
+	public double getMotor() {
 		return motor;
 	}
 
-	public void setMotor(float motor) {
+	public void setMotor(double motor) {
 		this.motor = motor;
 	}
 
@@ -204,13 +216,14 @@ public class Carro {
 
 	@Override
 	public String toString() {
-		return "Carro [placa=" + placa + ", anoFabricacao=" + anoFabricacao + ", anoModelo=" + anoModelo + ", Chassi="
-				+ Chassi + ", marca=" + marca + ", portas=" + portas + ", passageiros=" + passageiros
+		return "Carro [id=" + id + ", placa=" + placa + ", anoFabricacao=" + anoFabricacao + ", anoModelo=" + anoModelo
+				+ ", Chassi=" + Chassi + ", marca=" + marca + ", portas=" + portas + ", passageiros=" + passageiros
 				+ ", tipoCombustivel=" + tipoCombustivel + ", potencia=" + potencia + ", cilindradas=" + cilindradas
 				+ ", motor=" + motor + ", kmRodado=" + kmRodado + ", tipoCambio=" + tipoCambio + ", descricaoProblema="
 				+ descricaoProblema + "]";
 	}
-	
+
+
 	
 	
 	
