@@ -1,6 +1,4 @@
 package br.com.fiap.spaceCar.model;
-
-import java.util.ArrayList;
 import jakarta.validation.constraints.NotBlank;
 
 
@@ -13,8 +11,11 @@ public class Usuario {
 	@NotBlank(message = "É necessário informar um endereço.")
 	private Endereco endereco;
 
-	@NotBlank(message = "É necessário informar pelo menos um telefone.")
-	private ArrayList<String> telefone;
+	@NotBlank(message = "É necessário informar o ddd.")
+	private String ddd;
+	
+	@NotBlank(message="É necessário informar o telefone.")
+	private String telefone;
 
 	@NotBlank(message = "É necessário informar um email.")
 	private String email;
@@ -25,20 +26,34 @@ public class Usuario {
 		super();
 	}
 
-	public Usuario(@NotBlank(message = "É necessário informar um nome.") String nome,
+	public Usuario(int id, @NotBlank(message = "É necessário informar um nome.") String nome,
 			@NotBlank(message = "É necessário informar um endereço.") Endereco endereco,
-			@NotBlank(message = "É necessário informar pelo menos um telefone.") ArrayList<String> telefone,
+			@NotBlank(message = "É necessário informar o ddd.") String ddd,
+			@NotBlank(message = "É necessário informar o telefone.") String telefone,
 			@NotBlank(message = "É necessário informar um email.") String email,
 			@NotBlank(message = "É necessário informar uma senha.") String senha) {
 		super();
+		this.id = id;
 		this.nome = nome;
 		this.endereco = endereco;
+		this.ddd = ddd;
 		this.telefone = telefone;
 		this.email = email;
 		this.senha = senha;
 	}
-	
-	
+
+	public Usuario(@NotBlank(message = "É necessário informar um nome.") String nome,
+			@NotBlank(message = "É necessário informar o ddd.") String ddd,
+			@NotBlank(message = "É necessário informar o telefone.") String telefone,
+			@NotBlank(message = "É necessário informar um email.") String email,
+			@NotBlank(message = "É necessário informar uma senha.") String senha) {
+		super();
+		this.nome = nome;
+		this.ddd = ddd;
+		this.telefone = telefone;
+		this.email = email;
+		this.senha = senha;
+	}
 
 	public int getId() {
 		return id;
@@ -64,11 +79,19 @@ public class Usuario {
 		this.endereco = endereco;
 	}
 
-	public ArrayList<String> getTelefone() {
+	public String getDdd() {
+		return ddd;
+	}
+
+	public void setDdd(String ddd) {
+		this.ddd = ddd;
+	}
+
+	public String getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(ArrayList<String> telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 
@@ -90,8 +113,10 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [nome=" + nome + ", endereco=" + endereco + ", telefone=" + telefone + ", email=" + email
-				+ ", senha=" + senha + "]";
+		return "Usuario [id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", ddd=" + ddd + ", telefone="
+				+ telefone + ", email=" + email + ", senha=" + senha + "]";
 	}
 
+
+	
 }

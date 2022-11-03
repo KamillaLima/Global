@@ -1,7 +1,5 @@
 package br.com.fiap.spaceCar.model;
 
-import java.util.ArrayList;
-
 import jakarta.validation.constraints.NotBlank;
 
 public class Oficina extends Usuario {
@@ -10,18 +8,36 @@ public class Oficina extends Usuario {
 	private String cnpj;
 	@NotBlank(message = "É necessário informar uma descrição.")
 	private String descricao;
+	
 
 	public Oficina(@NotBlank(message = "É necessário informar um nome.") String nome,
-			@NotBlank(message = "É necessário informar um endereço.") Endereco endereco,
-			@NotBlank(message = "É necessário informar pelo menos um telefone.") ArrayList<String> telefone,
+			@NotBlank(message = "É necessário informar o ddd.") String ddd,
+			@NotBlank(message = "É necessário informar o telefone.") String telefone,
 			@NotBlank(message = "É necessário informar um email.") String email,
 			@NotBlank(message = "É necessário informar uma senha.") String senha,
 			@NotBlank(message = "É necessário informar um CNPJ.") String cnpj,
 			@NotBlank(message = "É necessário informar uma descrição.") String descricao) {
-		super(nome, endereco, telefone, email, senha);
+		super(nome, ddd, telefone, email, senha);
 		this.cnpj = cnpj;
 		this.descricao = descricao;
 	}
+	
+	
+
+	public Oficina(int id, @NotBlank(message = "É necessário informar um nome.") String nome,
+			@NotBlank(message = "É necessário informar um endereço.") Endereco endereco,
+			@NotBlank(message = "É necessário informar o ddd.") String ddd,
+			@NotBlank(message = "É necessário informar o telefone.") String telefone,
+			@NotBlank(message = "É necessário informar um email.") String email,
+			@NotBlank(message = "É necessário informar uma senha.") String senha,
+			@NotBlank(message = "É necessário informar um CNPJ.") String cnpj,
+			@NotBlank(message = "É necessário informar uma descrição.") String descricao) {
+		super(id, nome, endereco, ddd, telefone, email, senha);
+		this.cnpj = cnpj;
+		this.descricao = descricao;
+	}
+
+
 
 	public Oficina() {
 		super();
@@ -43,9 +59,14 @@ public class Oficina extends Usuario {
 		this.descricao = descricao;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Oficina [cnpj=" + cnpj + ", descricao=" + descricao + "]";
+		return "Oficina [cnpj=" + cnpj + ", descricao=" + descricao + ", getNome()=" + getNome() + ", getEndereco()="
+				+ getEndereco() + ", getDdd()=" + getDdd() + ", getTelefone()=" + getTelefone() + ", getEmail()="
+				+ getEmail() + ", getSenha()=" + getSenha() + "]";
 	}
+
 
 }

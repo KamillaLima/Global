@@ -13,7 +13,11 @@ import br.com.fiap.spaceCar.model.Carro;
 
 public class CarroDAO extends Repository {
 
-	public static int retornarTamanho() {
+	/**
+	 * Método para retornar um id de um carro
+	 * @return número inteiro que será o id de um carro
+	 */
+	public static int retornarId() {
 		String sql = "select SQ_SPC_CARROS.nextval from dual";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -29,7 +33,14 @@ public class CarroDAO extends Repository {
 		}
 		return retorno;
 	}
-
+	
+	
+	/**
+	 * Método para cadastrar um carro
+	 * @param codigoCliente -- código do cliente que irá adicionar um carro
+	 * @param c -- classe Carro
+	 * @return objeto carro
+	 */
 	public static Carro inserirCarro(int codigoCliente, Carro c) {
 		String sql = "INSERT INTO t_spc_carros (cd_carro,cd_usuario,ds_placa,nr_ano_fabricacao,nr_ano_modelo,ds_chassi,ds_marca,nr_portas,\n"
 				+ "    nr_passageiros,ds_combustivel,nr_potencia,nr_cilindradas,ds_motor,nr_km_rodado,ds_cambio,ds_problema\n"
@@ -39,7 +50,7 @@ public class CarroDAO extends Repository {
 
 		CallableStatement cs = null;
 		try {
-			int id = retornarTamanho();
+			int id = retornarId();
 			cs = getConnection().prepareCall(sql);
 			cs.setInt(1, id);
 			cs.setInt(2, codigoCliente);
@@ -76,6 +87,10 @@ public class CarroDAO extends Repository {
 		return c;
 	}
 	
+	/**
+	 * Método para listar todos os carros
+	 * @return List com todos os carros cadastrados
+	 */
 	public static List<Carro> buscarCarro() {
 		List<Carro> carros = new ArrayList<>();
 		String sql = "SELECT\n"+
