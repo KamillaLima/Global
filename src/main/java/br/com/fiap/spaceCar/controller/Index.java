@@ -1,4 +1,4 @@
-package br.com.fiap.spaceCar;
+package br.com.fiap.spaceCar.controller;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MediaType;
  * Root resource (exposed at "myresource" path)
  */
 @Path("/")
-public class MyResource {
+public class Index {
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent

@@ -50,6 +50,7 @@ public class CarroDAO extends Repository {
 				+ "    :v11,\n" + "    :v12,\n" + "    :v13,\n" + "    :v14,\n" + "    :v15\n" + ")";
 
 		CallableStatement cs = null;
+		Carro retorno = null;
 		try {
 			int id = retornarId();
 			cs = getConnection().prepareCall(sql);
@@ -70,7 +71,15 @@ public class CarroDAO extends Repository {
 			cs.setString(15, c.getTipoCambio());
 			cs.setString(16, c.getDescricaoProblema());
 			cs.executeUpdate();
-			c.setId(id);
+			
+			retorno = new Carro(id, c.getPlaca(), 
+					c.getAnoFabricacao(), c.getAnoModelo(), 
+					c.getChassi(), c.getMarca(), 
+					c.getPortas(), c.getPassageiros(), 
+					c.getTipoCombustivel(), c.getPotencia(), 
+					c.getCilindradas(), c.getMotor(), 
+					c.getKmRodado(), c.getTipoCambio(),
+					c.getDescricaoProblema(), codigoCliente);
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
 		} finally {
@@ -85,7 +94,7 @@ public class CarroDAO extends Repository {
 			}
 
 		}
-		return c;
+		return retorno;
 	}
 
 	/**

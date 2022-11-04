@@ -46,6 +46,7 @@ public class PessoaClienteDAO extends Repository {
 				+ "    nr_telefone,\n" + "    nr_ddd\n" + ") VALUES (\n" + "    :v0,\n" + "    :v1,\n" + "    :v2,\n"
 				+ "    :v3,\n" + "    :v4,\n" + "    :v5,\n" + "    :v6,\n" + "    :v7,\n" + "    :v8\n" + ")";
 		CallableStatement cs = null;
+		PessoaCliente retorno = null;
 		try {
 			int id = retornarId();
 			cs = getConnection().prepareCall(SQL);
@@ -60,7 +61,8 @@ public class PessoaClienteDAO extends Repository {
 			cs.setString(9, p.getDdd());
 			cs.executeUpdate();
 
-			p.setId(id);
+			retorno = new PessoaCliente(id, p.getNome(), p.getDdd(), p.getTelefone(), p.getEmail(),
+					p.getSenha(), p.getSexo(), p.getCpf(), p.getDataNasc());
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
 		} finally {
@@ -74,7 +76,9 @@ public class PessoaClienteDAO extends Repository {
 				Repository.closeConnection();
 			}
 		}
-		return p;
+		
+		System.out.println(p.getId());
+		return retorno;
 
 	}
 
@@ -96,6 +100,7 @@ public class PessoaClienteDAO extends Repository {
 			rs = ps.executeQuery();
 			if (rs.isBeforeFirst()) {
 				while (rs.next()) {
+					int id = rs.getInt("cd_usuario");
 					String nomeCompleto = rs.getString("nm_completo");
 					String tipoGenero = rs.getString("ds_genero");
 					LocalDate nascimento = rs.getDate("dt_nascimento").toLocalDate();
@@ -105,7 +110,7 @@ public class PessoaClienteDAO extends Repository {
 					String telefone = rs.getString("nr_telefone");
 					String ddd = rs.getString("nr_ddd");
 					lista.add(
-							new PessoaCliente(nomeCompleto, ddd, telefone, email, senha, tipoGenero, nascimento, cpf));
+							new PessoaCliente(id, nomeCompleto, ddd, telefone, email, senha, tipoGenero, cpf, nascimento));
 				}
 			} else {
 				System.out.println("Nenhum cliente foi cadastrado");

@@ -42,6 +42,20 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	public Usuario(int id,@NotBlank(message = "É necessário informar um nome.") String nome,
+			@NotBlank(message = "É necessário informar o ddd.") String ddd,
+			@NotBlank(message = "É necessário informar o telefone.") String telefone,
+			@NotBlank(message = "É necessário informar um email.") String email,
+			@NotBlank(message = "É necessário informar uma senha.") String senha) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.ddd = ddd;
+		this.telefone = telefone;
+		this.email = email;
+		this.senha = senha;
+	}
+	
 	public Usuario(@NotBlank(message = "É necessário informar um nome.") String nome,
 			@NotBlank(message = "É necessário informar o ddd.") String ddd,
 			@NotBlank(message = "É necessário informar o telefone.") String telefone,
@@ -54,6 +68,7 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 	}
+
 
 	public int getId() {
 		return id;
