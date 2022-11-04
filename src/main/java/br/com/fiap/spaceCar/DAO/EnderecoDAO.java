@@ -45,6 +45,7 @@ public class EnderecoDAO extends Repository {
 				+ "    :v5,\n" + "    :v6\n" + ")";
 
 		CallableStatement cs = null;
+		Endereco ende = null;
 		try {
 			int id = retornarId();
 			cs = getConnection().prepareCall(sql);
@@ -56,7 +57,8 @@ public class EnderecoDAO extends Repository {
 			cs.setString(6, end.getComplemento());
 			cs.setInt(7, end.getNumero());
 			cs.executeUpdate();
-			end.setId(id);
+			ende = new Endereco(end.getLogradouro(), end.getNumero(), end.getBairro(), end.getCidade(), end.getEstado());
+			ende.setId(id);
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
 		} finally {
@@ -70,7 +72,7 @@ public class EnderecoDAO extends Repository {
 				Repository.closeConnection();
 			}
 		}
-		return end;
+		return ende;
 	}
 
 	/**
@@ -137,24 +139,32 @@ public class EnderecoDAO extends Repository {
 
 	}
 
-	public List<Endereco> getAllEnderecos() {
+	public static List<Endereco> getAllEnderecos() {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		ArrayList<Endereco> retorno = null;
-		String sql = "SELECT * FROM T_SPC_OFICINA";
+		List<Endereco> retorno = new ArrayList<>();
+		String sql = "SELECT * FROM T_SPC_ENDERECO";
 		try {
+			ps = getConnection().prepareStatement(sql);
 			rs = ps.executeQuery(sql);
-			while (rs.next()) {
-				int id = rs.getInt("cd_enderco");
-				String logra = rs.getString("ds_logradouro");
-				String bairro = rs.getString("ds_bairro");
-				String estado = rs.getString("sg_estado");
-				String cidade = rs.getString("ds_cidade");
-				String complemento = rs.getString("ds_complemento");
-				int numero = rs.getInt("nr_numero");
+			if (rs.isBeforeFirst()) {
+				while (rs.next()) {
+					int id = rs.getInt("cd_endereco");
+					String logra = rs.getString("ds_logradouro");
+					String bairro = rs.getString("ds_bairro");
+					String estado = rs.getString("sg_estado");
+					String cidade = rs.getString("ds_cidade");
+					String complemento = rs.getString("ds_complemento");
+					int numero = rs.getInt("nr_numero");
 
-				Endereco end = new Endereco(logra, numero, bairro, cidade, estado);
-				retorno.add(end);
+					Endereco end = new Endereco(logra, numero, bairro, cidade, estado);
+					end.setComplemento(complemento);
+					end.setId(id);
+					System.out.println(end);
+					retorno.add(end);
+				}
+			} else {
+				System.out.println("Não há usuários cadastrados.");
 			}
 		} catch (SQLException e) {
 			System.out.println("ERRO AO EXECUTAR O SQL: " + e.getMessage());
@@ -167,6 +177,8 @@ public class EnderecoDAO extends Repository {
 			} catch (SQLException e) {
 				System.out.println("Erro ao tentar fechar o Statment ou o ResultSet");
 			}
+			if (Repository.connection != null)
+				Repository.closeConnection();
 		}
 		return retorno;
 	}

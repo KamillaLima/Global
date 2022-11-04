@@ -107,6 +107,12 @@ public class Endereco {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "Endereco [id=" + id + ", logradouro=" + logradouro + ", numero=" + numero + ", bairro=" + bairro
+				+ ", cidade=" + cidade + ", estado=" + estado + ", complemento=" + complemento + "]";
+	}
 	
 	
 }
