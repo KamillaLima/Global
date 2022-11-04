@@ -4,6 +4,8 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.fiap.spaceCar.model.Endereco;
 
@@ -133,5 +135,39 @@ public class EnderecoDAO extends Repository {
 			}
 		}
 
+	}
+
+	public List<Endereco> getAllEnderecos() {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Endereco> retorno = null;
+		String sql = "SELECT * FROM T_SPC_OFICINA";
+		try {
+			rs = ps.executeQuery(sql);
+			while (rs.next()) {
+				int id = rs.getInt("cd_enderco");
+				String logra = rs.getString("ds_logradouro");
+				String bairro = rs.getString("ds_bairro");
+				String estado = rs.getString("sg_estado");
+				String cidade = rs.getString("ds_cidade");
+				String complemento = rs.getString("ds_complemento");
+				int numero = rs.getInt("nr_numero");
+
+				Endereco end = new Endereco(logra, numero, bairro, cidade, estado);
+				retorno.add(end);
+			}
+		} catch (SQLException e) {
+			System.out.println("ERRO AO EXECUTAR O SQL: " + e.getMessage());
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao tentar fechar o Statment ou o ResultSet");
+			}
+		}
+		return retorno;
 	}
 }

@@ -44,6 +44,9 @@ public class OficinaDAO extends Repository {
 				+ "    :v5,\n" + "    :v6,\n" + "    :v7\n" + ")";
 
 		CallableStatement cs = null;
+		System.out.println(o);
+		
+		Oficina retorno = null;
 		try {
 			int id = retornarId();
 			cs = getConnection().prepareCall(sql);
@@ -57,7 +60,8 @@ public class OficinaDAO extends Repository {
 			cs.setString(8, o.getTelefone());
 			cs.executeUpdate();
 
-			o.setId(id);
+			retorno = new Oficina(id, o.getNome(), o.getEndereco(), o.getDdd(), o.getTelefone(), o.getEmail(), o.getSenha(), o.getCnpj(), o.getDescricao());
+			
 
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
@@ -72,7 +76,7 @@ public class OficinaDAO extends Repository {
 				Repository.closeConnection();
 			}
 		}
-		return o;
+		return retorno;
 
 	}
 
@@ -93,6 +97,7 @@ public class OficinaDAO extends Repository {
 			rs = ps.executeQuery();
 			if (rs.isBeforeFirst()) {
 				while (rs.next()) {
+					int id = rs.getInt("cd_oficina");
 					String nome = rs.getString("nm_oficina");
 					String email = rs.getString("ds_email");
 					String senha = rs.getString("ds_senha");
@@ -100,7 +105,9 @@ public class OficinaDAO extends Repository {
 					String descricao = rs.getString("ds_oficina");
 					String ddd = rs.getString("nr_ddd");
 					String telefone = rs.getString("nr_telefone");
-					oficinas.add(new Oficina(nome, ddd, telefone, email, senha, cnpj, descricao));
+					
+					
+					oficinas.add(new Oficina(id, nome, null, ddd, telefone, email, senha, cnpj, descricao));
 				}
 			} else {
 				System.out.println("Nennhuma oficina foi cadastrada");
@@ -145,6 +152,7 @@ public class OficinaDAO extends Repository {
 
 			if (rs.isBeforeFirst()) {
 				while (rs.next()) {
+					oficina.setId(rs.getInt("cd_oficina"));
 					oficina.setNome(rs.getString("nm_oficina"));
 					oficina.setEmail(rs.getString("ds_email"));
 					oficina.setSenha(rs.getString("ds_senha"));
