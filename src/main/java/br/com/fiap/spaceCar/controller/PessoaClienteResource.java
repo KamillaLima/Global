@@ -4,8 +4,10 @@ import java.net.URI;
 import java.util.List;
 
 import br.com.fiap.spaceCar.DAO.CarroDAO;
+import br.com.fiap.spaceCar.DAO.EnderecoDAO;
 import br.com.fiap.spaceCar.DAO.PessoaClienteDAO;
 import br.com.fiap.spaceCar.model.Carro;
+import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.PessoaCliente;
 //import br.com.fiap.tads.ddd.coffe.controller.CoffeeResource;
 import jakarta.ws.rs.Consumes;
@@ -31,12 +33,13 @@ public class PessoaClienteResource {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response save(PessoaCliente pessoa) {
-		System.out.println(pessoa);
+	public Response save (PessoaCliente pessoa) {
+		//System.out.println(pessoa);
+		
+		
 		PessoaCliente resp = PessoaClienteDAO.inserirCliente(pessoa);
 		final URI pessoaUri = UriBuilder.fromResource(PessoaClienteResource.class).path("/cliente/{id}")
 				.build(resp.getId());
-		
 		ResponseBuilder response = Response.created(pessoaUri);
 		response.entity(resp);
 		return response.build();
@@ -73,6 +76,21 @@ public class PessoaClienteResource {
 				.build(resp.getId());
 		ResponseBuilder response = Response.created(carroUri);
 		response.entity(resp);
+		return response.build();
+	}
+	
+	
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/endereco")
+	// TODO: TALVEZ SEJA EXCLUÍDO  -- JEFF
+	public Response saveEnd(Endereco e) {
+		Endereco resp = EnderecoDAO.inserirEndereco(e);
+		final URI enderecoUri =  UriBuilder.fromResource(EnderecoResource.class).path("/endereco/{id}").build(resp.getId());
+		ResponseBuilder response = Response.created(enderecoUri);
+		response.entity(resp);
+		
 		return response.build();
 	}
 }

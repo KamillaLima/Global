@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.Oficina;
 
 public class OficinaDAO extends Repository {
@@ -60,7 +62,10 @@ public class OficinaDAO extends Repository {
 			cs.setString(8, o.getTelefone());
 			cs.executeUpdate();
 
-			retorno = new Oficina(id, o.getNome(), o.getEndereco(), o.getDdd(), o.getTelefone(), o.getEmail(), o.getSenha(), o.getCnpj(), o.getDescricao());
+			retorno = new Oficina(id, o.getNome(), o.getEndereco(), 
+					o.getDdd(), o.getTelefone(), 
+					o.getEmail(), o.getSenha(), 
+					o.getCnpj(), o.getDescricao());
 			
 
 		} catch (SQLException e) {
@@ -75,6 +80,12 @@ public class OficinaDAO extends Repository {
 			if (Repository.connection != null) {
 				Repository.closeConnection();
 			}
+		}
+		
+		if (o.getEndereco() != null) {
+			Endereco ende = EnderecoDAO.inserirEndereco(o.getEndereco());
+			retorno.setEndereco(ende);
+			EnderecoDAO.inserirEnderecoOficina(retorno.getEndereco().getId(), retorno.getId());
 		}
 		return retorno;
 

@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.PessoaCliente;
 
 public class PessoaClienteDAO extends Repository {
@@ -65,7 +66,8 @@ public class PessoaClienteDAO extends Repository {
 					p.getSenha(), p.getSexo(),  p.getDataNasc(),p.getCpf());
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
-		} finally {
+		}
+		finally {
 			try {
 				if (cs != null)
 					cs.close();
@@ -75,6 +77,12 @@ public class PessoaClienteDAO extends Repository {
 			if (Repository.connection != null) {
 				Repository.closeConnection();
 			}
+		}
+		
+		if (p.getEndereco() != null) {
+			Endereco ender = EnderecoDAO.inserirEndereco(p.getEndereco());
+			retorno.setEndereco(ender);
+			EnderecoDAO.inserirEndCliente(retorno.getEndereco().getId(), retorno.getId());
 		}
 		
 		System.out.println(p.getId());

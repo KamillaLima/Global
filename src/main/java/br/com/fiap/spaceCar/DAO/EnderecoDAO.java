@@ -57,7 +57,8 @@ public class EnderecoDAO extends Repository {
 			cs.setString(6, end.getComplemento());
 			cs.setInt(7, end.getNumero());
 			cs.executeUpdate();
-			ende = new Endereco(end.getLogradouro(), end.getNumero(), end.getBairro(), end.getCidade(), end.getEstado());
+			ende = new Endereco(end.getLogradouro(), end.getNumero(),
+					end.getBairro(), end.getCidade(), end.getEstado());
 			ende.setId(id);
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
