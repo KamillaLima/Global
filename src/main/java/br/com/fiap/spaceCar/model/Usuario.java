@@ -1,9 +1,9 @@
 package br.com.fiap.spaceCar.model;
+
 import jakarta.validation.constraints.NotBlank;
 
+public abstract class Usuario {
 
-public class Usuario {
-	
 	private int id;
 	@NotBlank(message = "É necessário informar um nome.")
 	private String nome;
@@ -13,8 +13,8 @@ public class Usuario {
 
 	@NotBlank(message = "É necessário informar o ddd.")
 	private String ddd;
-	
-	@NotBlank(message="É necessário informar o telefone.")
+
+	@NotBlank(message = "É necessário informar o telefone.")
 	private String telefone;
 
 	@NotBlank(message = "É necessário informar um email.")
@@ -42,7 +42,7 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public Usuario(int id,@NotBlank(message = "É necessário informar um nome.") String nome,
+	public Usuario(int id, @NotBlank(message = "É necessário informar um nome.") String nome,
 			@NotBlank(message = "É necessário informar o ddd.") String ddd,
 			@NotBlank(message = "É necessário informar o telefone.") String telefone,
 			@NotBlank(message = "É necessário informar um email.") String email,
@@ -55,7 +55,7 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 	}
-	
+
 	public Usuario(@NotBlank(message = "É necessário informar um nome.") String nome,
 			@NotBlank(message = "É necessário informar o ddd.") String ddd,
 			@NotBlank(message = "É necessário informar o telefone.") String telefone,
@@ -68,7 +68,6 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 	}
-
 
 	public int getId() {
 		return id;
@@ -132,6 +131,4 @@ public class Usuario {
 				+ telefone + ", email=" + email + ", senha=" + senha + "]";
 	}
 
-
-	
 }

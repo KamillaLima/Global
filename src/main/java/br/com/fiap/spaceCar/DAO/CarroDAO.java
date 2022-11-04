@@ -79,7 +79,7 @@ public class CarroDAO extends Repository {
 					c.getTipoCombustivel(), c.getPotencia(), 
 					c.getCilindradas(), c.getMotor(), 
 					c.getKmRodado(), c.getTipoCambio(),
-					c.getDescricaoProblema(), codigoCliente);
+					c.getDescricaoProblema());
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
 		} finally {

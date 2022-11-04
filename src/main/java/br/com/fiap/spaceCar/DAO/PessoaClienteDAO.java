@@ -62,7 +62,7 @@ public class PessoaClienteDAO extends Repository {
 			cs.executeUpdate();
 
 			retorno = new PessoaCliente(id, p.getNome(), p.getDdd(), p.getTelefone(), p.getEmail(),
-					p.getSenha(), p.getSexo(), p.getCpf(), p.getDataNasc());
+					p.getSenha(), p.getSexo(),  p.getDataNasc(),p.getCpf());
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
 		} finally {
@@ -110,7 +110,7 @@ public class PessoaClienteDAO extends Repository {
 					String telefone = rs.getString("nr_telefone");
 					String ddd = rs.getString("nr_ddd");
 					lista.add(
-							new PessoaCliente(id, nomeCompleto, ddd, telefone, email, senha, tipoGenero, cpf, nascimento));
+							new PessoaCliente(id, nomeCompleto, ddd, telefone, email, senha, tipoGenero, nascimento, cpf));
 				}
 			} else {
 				System.out.println("Nenhum cliente foi cadastrado");

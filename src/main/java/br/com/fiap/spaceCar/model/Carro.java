@@ -57,8 +57,6 @@ public class Carro {
 	@NotBlank(message = "É necessário informar a descrição do problema do automóvel")
 	private String descricaoProblema;
 
-	int idPessoa;
-
 	public Carro(int id, @NotBlank(message = "É necessário informar a placa do automóvel") String placa,
 			@PastOrPresent(message = "A data de fabricação deve ser menor ou igual a hoje") LocalDate anoFabricacao,
 			@PastOrPresent(message = "A data do modelo deve ser menor ou igual a hoje") LocalDate anoModelo,
@@ -72,8 +70,8 @@ public class Carro {
 			@NotNull(message = "É necessário informar o motor do automóvel") @PositiveOrZero(message = "O valor do motor deve ser maior do que zero") double motor,
 			@NotNull(message = "É necessário informar os quilômetros rodados do automóvel") int kmRodado,
 			@NotBlank(message = "É necessário informar o tipo do câmbio do automóvel") String tipoCambio,
-			@NotBlank(message = "É necessário informar a descrição do problema do automóvel") String descricaoProblema,
-			int idPessoa) {
+			@NotBlank(message = "É necessário informar a descrição do problema do automóvel") String descricaoProblema) {
+		super();
 		this.id = id;
 		this.placa = placa;
 		this.anoFabricacao = anoFabricacao;
@@ -89,12 +87,8 @@ public class Carro {
 		this.kmRodado = kmRodado;
 		this.tipoCambio = tipoCambio;
 		this.descricaoProblema = descricaoProblema;
-		this.idPessoa = idPessoa;
 	}
 
-	
-	
-	
 	public Carro(@NotBlank(message = "É necessário informar a placa do automóvel") String placa,
 			@PastOrPresent(message = "A data de fabricação deve ser menor ou igual a hoje") LocalDate anoFabricacao,
 			@PastOrPresent(message = "A data do modelo deve ser menor ou igual a hoje") LocalDate anoModelo,
@@ -109,6 +103,7 @@ public class Carro {
 			@NotNull(message = "É necessário informar os quilômetros rodados do automóvel") int kmRodado,
 			@NotBlank(message = "É necessário informar o tipo do câmbio do automóvel") String tipoCambio,
 			@NotBlank(message = "É necessário informar a descrição do problema do automóvel") String descricaoProblema) {
+		super();
 		this.placa = placa;
 		this.anoFabricacao = anoFabricacao;
 		this.anoModelo = anoModelo;
@@ -124,9 +119,6 @@ public class Carro {
 		this.tipoCambio = tipoCambio;
 		this.descricaoProblema = descricaoProblema;
 	}
-
-
-
 
 	public Carro() {
 		super();
@@ -250,14 +242,6 @@ public class Carro {
 
 	public void setDescricaoProblema(String descricaoProblema) {
 		this.descricaoProblema = descricaoProblema;
-	}
-
-	public int getIdPessoa() {
-		return idPessoa;
-	}
-
-	public void setIdPessoa(int idPessoa) {
-		this.idPessoa = idPessoa;
 	}
 
 }
