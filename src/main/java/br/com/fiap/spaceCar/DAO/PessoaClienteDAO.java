@@ -144,5 +144,13 @@ public class PessoaClienteDAO extends Repository {
 		return lista;
 
 	}
+	
+//	
+//	public static void fazerAngendamento (String nomeOficina) {
+//		PreparedStatement ps = null;
+//		ResultSet rs = null;
+//		String sql = "SELECT * FROM T_SPC_OFICINA WHERE NM_OFCINA = ?"
+//	}
+	
 
 }
