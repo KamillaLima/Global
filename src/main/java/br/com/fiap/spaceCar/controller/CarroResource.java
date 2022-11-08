@@ -25,6 +25,10 @@ public class CarroResource {
 	public Response findAll() {
 		List<Carro> resp = CarroDAO.buscarCarro();
 		
+		for (Carro carro : resp) {
+			System.out.println(carro);
+		}
+		
 		ResponseBuilder response = Response.ok();
 		response.entity(resp);
 

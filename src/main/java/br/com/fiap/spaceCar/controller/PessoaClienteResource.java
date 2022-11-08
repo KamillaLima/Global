@@ -6,6 +6,7 @@ import java.util.List;
 import br.com.fiap.spaceCar.DAO.CarroDAO;
 import br.com.fiap.spaceCar.DAO.EnderecoDAO;
 import br.com.fiap.spaceCar.DAO.PessoaClienteDAO;
+import br.com.fiap.spaceCar.model.Agendamento;
 import br.com.fiap.spaceCar.model.Carro;
 import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.PessoaCliente;
@@ -80,6 +81,14 @@ public class PessoaClienteResource {
 	}
 	
 	
+	
+	
+	/** Método para salvar um endereço dentro do nosso programa, recebe um JSON referente a classe model endereço.
+	 * 
+	 * @param e - Json referente ao endereço do que deseja salvar.
+	 * @return HTTP 201 (created) e a entidade que foi salva no DB.
+	 * @author Jefferson.
+	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -94,5 +103,33 @@ public class PessoaClienteResource {
 		return response.build();
 	}
 	
+
+	
+	/**
+	 * Método o que faz o registro de um agendamento.
+	 * @param idPes id do usuário vindo através de sua URL.
+	 * @param JSON agendamento que vem do front
+	 * @return HTTP resp 201 (created), e a um json referente a classe Agendamento.
+	 * @author Jefferson
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("{id}/agendar")
+	public Response fazerAgendamento (@PathParam("id") int idPes, Agendamento agenda) {
+		Agendamento agend = agenda;
+		agend.setIdUser(idPes);
+		Agendamento resp  = PessoaClienteDAO.fazerAngendamento(agend);
+		String idUStr = Integer.toString(agenda.getIdUser());
+		String idOf = Integer.toString(agenda.getIdOfc());
+		String idFinal = idUStr + idOf;
+		
+		final URI agendamentoUri = UriBuilder.fromResource(Agendamento.class).path("agentamendo/{id}").build(idFinal);
+		System.out.println(agendamentoUri);
+		ResponseBuilder response = Response.created(agendamentoUri);
+		response.entity(resp);
+
+		return response.build();
+	}
 	
 }

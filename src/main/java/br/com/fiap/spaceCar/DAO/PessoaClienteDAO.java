@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.fiap.spaceCar.model.Agendamento;
 import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.PessoaCliente;
 
@@ -145,12 +146,46 @@ public class PessoaClienteDAO extends Repository {
 
 	}
 	
-//	
-//	public static void fazerAngendamento (String nomeOficina) {
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
-//		String sql = "SELECT * FROM T_SPC_OFICINA WHERE NM_OFCINA = ?"
-//	}
+	
+	
+	/**
+	 * Registrar o agendamento no nosso banco de dados
+	 * @param agenda -- Classe que se refere aos dados de agendamenot online.
+	 * @return o próprio objeto Agendamento.
+	 * @author Jefferson
+	 */
+	public static Agendamento fazerAngendamento (Agendamento agenda) {
+		PreparedStatement ps = null;
+		System.out.println(agenda);
+		String sql = "INSERT INTO T_SPC_AGENDAMENTO (cd_usuario, cd_oficina, dt_agendamento)\r\n"
+				+ "VALUES \r\n"
+				+ "(?,\r\n"
+				+ "?,\r\n"
+				+ "?)";
+		try {
+			ps = getConnection().prepareStatement(sql);
+			ps.setInt(1, agenda.getIdUser());
+			ps.setInt(2, agenda.getIdOfc());
+			ps.setDate(3, Date.valueOf(agenda.getHorario()));
+			ps.executeQuery();
+			
+		} catch (SQLException e) {
+			System.out.println("Falha ao cadastrar o agendamento: "+ e.getMessage());
+		}finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao tentar fechar o Statement " + e.getMessage());
+			}
+			if (Repository.connection != null) {
+				Repository.closeConnection();
+			}
+		}
+		
+		return agenda;
+
+	}
 	
 
 }
