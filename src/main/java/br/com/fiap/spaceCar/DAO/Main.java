@@ -1,6 +1,9 @@
 package br.com.fiap.spaceCar.DAO;
 
-import br.com.fiap.spaceCar.model.PessoaCliente;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.fiap.spaceCar.model.Agendamento;
 
 public class Main {
 
@@ -76,6 +79,21 @@ public class Main {
 		/*PessoaCliente pessoa = new PessoaCliente();
 		pessoa = PessoaClienteDAO.procurarPessoaClienteId(2);
 		System.out.println(pessoa.getNome());*/
+		
+		
+		/*List<Agendamento> lista =AgendamentoDAO.procurarAgendamentoByIdOficina(1);
+		for (int i = 0; i < lista.size(); i++) {
+			System.out.println(lista.get(i));
+		}*/
+		
+		/*
+		List<Agendamento> listaCliente = AgendamentoDAO.procurarAgendamentoByIdPessoaCliente(2);
+		for (Agendamento agendamento : listaCliente) {
+			System.out.println(agendamento);
+		}
+		
+		*/
+		
 	
 	}
 
