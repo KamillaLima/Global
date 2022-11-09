@@ -4,8 +4,11 @@ import java.util.List;
 
 import br.com.fiap.spaceCar.DAO.CarroDAO;
 import br.com.fiap.spaceCar.model.Carro;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -35,6 +38,31 @@ public class CarroResource {
 		return response.build();
 	}
 	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Response save(@PathParam("id") int id, Carro c){
+		Carro velho = c;
+		System.out.println(velho.getId());
+		Carro novo = null;
+		novo = CarroDAO.uptadeCarro(c);
+		return Response.ok(novo).build();
+	}
 	
 	
+	/*** Pega o registro de carro referente ao id dado.
+	 * 
+	 * @param id referente ao PK do carro
+	 * @return HTTP RESPONSE OK (200), E JSON Referente ao registro do carro com a ID data no param1
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Response findById(@PathParam("id") int id) {
+		Carro resp = CarroDAO.getByCarId(id);
+		
+		ResponseBuilder response = Response.ok();
+		response.entity(resp);
+		return response.build();
+	}
 }

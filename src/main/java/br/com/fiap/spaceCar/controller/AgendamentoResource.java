@@ -11,13 +11,19 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 
-@Path("/agendamento")
+@Path("/agenda")
 public class AgendamentoResource {
 
-
+	
+	
+	/** Função que pega todos os agendamentos presente no nosso banco de dados.
+	 * 
+	 * @return HTTP RESPONSE 200 OK. Json referente aos registros de agendamento no DB
+	 * @author Jefferson
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	private Response getAll() {
+	public Response getAll() {
 		List<Agendamento> resp = AgendamentoDAO.getAll();
 		ResponseBuilder response = Response.ok();
 		response.entity(resp);

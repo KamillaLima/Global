@@ -22,21 +22,30 @@ public class AgendamentoDAO extends Repository {
 		ResultSet rs = null;
 		String sql = "SELECT * FROM T_SPC_AGENDAMENTO";
 		List<Agendamento> retorno = new ArrayList<>();
+			
 		try {
 			ps = getConnection().prepareStatement(sql);
 			rs = ps.executeQuery();
-			while (rs.next()) {
-				int idUser = rs.getInt("CD_USUARIO");
-				int idOfc = rs.getInt("CD_OFICINA");
-				LocalDate horario = rs.getDate("dt_agendamento").toLocalDate();
-
-				Agendamento agend = new Agendamento(idUser, idOfc, horario);
-				retorno.add(agend);
+			if (rs.isBeforeFirst()) {
+				while(rs.next()) {
+					System.out.println("TABELA TABELA AGENDAMENTO ENCONTRADA.");
+					int cdUser = rs.getInt("CD_USUARIO");
+					int cdOficina = rs.getInt("CD_OFICINA");
+					int cdAgendamento = rs.getInt("CD_AGENDAMENTO");
+					LocalDate dataInicio = rs.getDate("DT_AGEND_INICIAL").toLocalDate();
+					LocalDate dataFim = rs.getDate("DT_AGEND_FINAL").toLocalDate();
+					
+					Agendamento agend = new Agendamento(cdAgendamento, cdUser, cdOficina, dataInicio, dataFim);
+					retorno.add(agend);
+					
+				}
+			}else {
+				System.out.println("Não existem itens nessa tabela");
+				return retorno;
 			}
-
 		} catch (SQLException e) {
-			System.out.println("Erro ao pegar os agendamentos do programa: " + e.getMessage());
-		} finally {
+			System.out.println("Houve um erro ao se conectar com o banco: " + e.getMessage());
+		}finally {
 			try {
 				if (ps != null)
 					ps.close();
@@ -51,6 +60,7 @@ public class AgendamentoDAO extends Repository {
 		for (Agendamento agendamento : retorno) {
 			System.out.println(agendamento);
 		}
+		
 		return retorno;
-	}
+	}	
 }
