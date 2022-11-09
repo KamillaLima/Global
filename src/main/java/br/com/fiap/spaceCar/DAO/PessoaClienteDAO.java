@@ -155,7 +155,9 @@ public class PessoaClienteDAO extends Repository {
 			ps.setString(2, email);
 			rs = ps.executeQuery();
 			if (rs.isBeforeFirst()) {
-				
+				while (rs.next()) {
+				retorno = procurarPessoaClienteId(rs.getInt("CD_USUARIO")); 
+				}
 			}else {
 				System.out.println("Nenhum usuário com esses dados foram encontrados.");
 				return retorno;

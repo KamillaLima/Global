@@ -86,7 +86,7 @@ public class PessoaClienteResource {
 		Usuario dados = p;
 		String email = p.getEmail();
 		String senha = p.getSenha();
-		Usuario resp = null;
+		Usuario resp = PessoaClienteDAO.getByEmailSenha(email, senha);
 		ResponseBuilder response = Response.ok();
 		response.entity(resp);
 		return response.build();

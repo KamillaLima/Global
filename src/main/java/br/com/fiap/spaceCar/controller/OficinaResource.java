@@ -72,4 +72,23 @@ public class OficinaResource {
 
 		return response.build();
 	}
+	
+	/** Verifica 
+	 * 
+	 * @param o -- JSON vindo do front contendo apenas EMAIL e SENHA para testar o login
+	 * @return HTTP RESPONSE 200 (OK) , e o JSON referente a pessoa no DB.
+	 */
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/login")
+	public Response verificar (Oficina o) {
+		String email = o.getEmail();
+		String senha = o.getSenha();
+		Oficina resp = OficinaDAO.getByEmailSenha(email, senha);
+		ResponseBuilder response = Response.ok();
+		response.entity(resp);
+		return response.build();
+	}
+	
 }

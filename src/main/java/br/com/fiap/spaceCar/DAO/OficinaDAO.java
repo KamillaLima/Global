@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.Oficina;
+import br.com.fiap.spaceCar.model.PessoaCliente;
 
 public class OficinaDAO extends Repository {
 
@@ -192,6 +193,30 @@ public class OficinaDAO extends Repository {
 				Repository.closeConnection();
 		}
 		return null;
+	}
+	
+	public static Oficina getByEmailSenha(String email, String senha) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Oficina retorno = null;
+		String sql = "SELECT * FROM T_SPC_OFICINA WHERE DS_SENHA = ? AND DS_EMAIL = ?";
+		try {
+			ps = getConnection().prepareStatement(sql);
+			ps.setString(1, senha);
+			ps.setString(2, email);
+			rs = ps.executeQuery();
+			if (rs.isBeforeFirst()) {
+				while (rs.next()) {
+				retorno = procurarOficinaId(rs.getInt("CD_OFICINA")); 
+				}
+			}else {
+				System.out.println("Nenhum usuário com esses dados foram encontrados.");
+				return retorno;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao executar o comando sql: " + e.getMessage());
+		}
+		return retorno;
 	}
 	
 }
