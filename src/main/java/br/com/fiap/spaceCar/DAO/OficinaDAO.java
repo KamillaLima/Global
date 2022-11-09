@@ -195,6 +195,14 @@ public class OficinaDAO extends Repository {
 		return null;
 	}
 	
+	
+	/** Retorna o Objeto Oficina, caso haja algum registro no BD com a senha e email dado
+	 * 
+	 * @param email vindo de um JSON do front
+	 * @param senha vindo de um JSON do front
+	 * @return Objeto OFICINA.
+	 * @author Jefferson
+	 */
 	public static Oficina getByEmailSenha(String email, String senha) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;

@@ -144,6 +144,14 @@ public class PessoaClienteDAO extends Repository {
 
 	}
 	
+	
+	/** Retorna o Objeto PessoaCliente, caso haja algum registro no BD com a senha e email dado
+	 * 
+	 * @param email vindo de um JSON do front
+	 * @param senha vindo de um JSON do front
+	 * @return Objeto PessoaCliente.
+	 * @author Jefferson
+	 */
 	public static PessoaCliente getByEmailSenha(String email, String senha) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
