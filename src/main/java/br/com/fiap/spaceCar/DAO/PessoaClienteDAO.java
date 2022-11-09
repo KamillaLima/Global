@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.fiap.spaceCar.model.Agendamento;
 import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.PessoaCliente;
 
@@ -166,5 +164,58 @@ public class PessoaClienteDAO extends Repository {
 			System.out.println("Erro ao executar o comando sql: " + e.getMessage());
 		}
 		return retorno;
+	}
+	
+	
+	/**
+	 * Método responsável por retornar todas as informações de um cliente através de seu id
+	 * @param id-- id do cliente
+	 * @return -- objeto cliente
+	 */
+	public static PessoaCliente procurarPessoaClienteId(int id) {
+		String sql = "SELECT cd_usuario,nm_completo,ds_genero,dt_nascimento,ds_email,ds_senha,nr_cpf,nr_telefone,nr_ddd FROM t_spc_usuario WHERE cd_usuario =?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		PessoaCliente pessoaCliente = new PessoaCliente();
+		try {
+
+			ps = getConnection().prepareStatement(sql);
+			ps.setInt(1, id);
+
+			rs = ps.executeQuery();
+
+			if (rs.isBeforeFirst()) {
+				while (rs.next()) {
+					pessoaCliente.setId(rs.getInt("cd_usuario"));
+					pessoaCliente.setNome(rs.getString("nm_completo"));
+					pessoaCliente.setSexo(rs.getString("ds_genero"));
+					pessoaCliente.setDataNasc(rs.getDate("dt_nascimento").toLocalDate());
+					pessoaCliente.setEmail(rs.getString("ds_email"));
+					pessoaCliente.setSenha(rs.getString("ds_senha"));
+					pessoaCliente.setCpf(rs.getString("nr_cpf"));
+					pessoaCliente.setTelefone(rs.getString("nr_telefone"));
+					pessoaCliente.setDdd(rs.getString("nr_ddd"));
+					
+				}
+				return pessoaCliente;
+			} else {
+				System.out.println("Não existem cliente(s) com esse id");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro na execu��o do SQL: " + e.getMessage());
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao tentar fechar o Statment ou o ResultSet");
+			}
+			if (Repository.connection != null)
+				Repository.closeConnection();
+		}
+		return null;
 	}
 }

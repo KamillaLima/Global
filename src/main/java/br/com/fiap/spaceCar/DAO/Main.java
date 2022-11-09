@@ -1,7 +1,6 @@
 package br.com.fiap.spaceCar.DAO;
 
-import br.com.fiap.spaceCar.model.Endereco;
-import br.com.fiap.spaceCar.model.Oficina;
+import br.com.fiap.spaceCar.model.PessoaCliente;
 
 public class Main {
 
@@ -73,6 +72,10 @@ public class Main {
 		endereco = EnderecoDAO.inserirEndereco(endereco);
 		EnderecoDAO.inserirEnderecoOficina(endereco.getId(), 1);
 		*/
+		
+		/*PessoaCliente pessoa = new PessoaCliente();
+		pessoa = PessoaClienteDAO.procurarPessoaClienteId(2);
+		System.out.println(pessoa.getNome());*/
 	
 	}
 
