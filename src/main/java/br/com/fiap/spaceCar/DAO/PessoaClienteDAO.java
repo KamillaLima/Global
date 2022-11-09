@@ -145,4 +145,26 @@ public class PessoaClienteDAO extends Repository {
 		return lista;
 
 	}
+	
+	public static PessoaCliente getByEmailSenha(String email, String senha) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		PessoaCliente retorno = null;
+		String sql = "SELECT * FROM T_SPC_USUARIO WHERE DS_SENHA = ? AND DS_EMAIL = ?";
+		try {
+			ps = getConnection().prepareStatement(sql);
+			ps.setString(1, senha);
+			ps.setString(2, email);
+			rs = ps.executeQuery();
+			if (rs.isBeforeFirst()) {
+				
+			}else {
+				System.out.println("Nenhum usuário com esses dados foram encontrados.");
+				return retorno;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao executar o comando sql: " + e.getMessage());
+		}
+		return retorno;
+	}
 }

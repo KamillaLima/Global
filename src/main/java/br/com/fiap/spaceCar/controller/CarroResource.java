@@ -38,6 +38,13 @@ public class CarroResource {
 		return response.build();
 	}
 	
+	
+	/** Função para atualizar os dados de um carro no DB
+	 * 
+	 * @param id -- Do carro que você quer mudar
+	 * @param c -- Objeto carro (é o que vem do JSON)
+	 * @return HTTP RESPONSE 200, e o JSON referente ao registro no banco de dados.
+	 */
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{id}")

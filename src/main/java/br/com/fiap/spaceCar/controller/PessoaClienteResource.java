@@ -4,12 +4,10 @@ import java.net.URI;
 import java.util.List;
 
 import br.com.fiap.spaceCar.DAO.CarroDAO;
-import br.com.fiap.spaceCar.DAO.EnderecoDAO;
 import br.com.fiap.spaceCar.DAO.PessoaClienteDAO;
-import br.com.fiap.spaceCar.model.Agendamento;
 import br.com.fiap.spaceCar.model.Carro;
-import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.PessoaCliente;
+import br.com.fiap.spaceCar.model.Usuario;
 //import br.com.fiap.tads.ddd.coffe.controller.CoffeeResource;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -76,6 +74,20 @@ public class PessoaClienteResource {
 		final URI carroUri = UriBuilder.fromResource(PessoaClienteResource.class).path("/carro/{id}")
 				.build(resp.getId());
 		ResponseBuilder response = Response.created(carroUri);
+		response.entity(resp);
+		return response.build();
+	}
+	
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/login")
+	public Response verificar(PessoaCliente p) {
+		Usuario dados = p;
+		String email = p.getEmail();
+		String senha = p.getSenha();
+		Usuario resp = null;
+		ResponseBuilder response = Response.ok();
 		response.entity(resp);
 		return response.build();
 	}

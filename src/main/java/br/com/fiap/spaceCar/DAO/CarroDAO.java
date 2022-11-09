@@ -262,6 +262,13 @@ public class CarroDAO extends Repository {
 		return retorno;
 	}
 
+	/**
+	 * Pega o registro do carro baseado na ID do CARRO!
+	 * 
+	 * @param idUser PK do carro em nosso DB. (cd_carro)
+	 * @return Objeto Carro.
+	 * @author Jefferson
+	 */
 	public static Carro getByCarId(int idCar) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -314,8 +321,4 @@ public class CarroDAO extends Repository {
 		return retorno;
 	}
 
-	// É SÓ PRA TESTAR !!!
-	public static void main(String[] args) {
-		System.out.println(getByUserId(0));
-	}
 }
