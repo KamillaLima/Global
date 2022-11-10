@@ -3,8 +3,10 @@ package br.com.fiap.spaceCar.controller;
 import java.net.URI;
 import java.util.List;
 
+import br.com.fiap.spaceCar.DAO.AgendamentoDAO;
 import br.com.fiap.spaceCar.DAO.CarroDAO;
 import br.com.fiap.spaceCar.DAO.PessoaClienteDAO;
+import br.com.fiap.spaceCar.model.Agendamento;
 import br.com.fiap.spaceCar.model.Carro;
 import br.com.fiap.spaceCar.model.PessoaCliente;
 import br.com.fiap.spaceCar.model.Usuario;
@@ -94,6 +96,21 @@ public class PessoaClienteResource {
 		return response.build();
 	}
 	
+	
+	/** Método que seleciona os agendamentos do usuário baseados em seu ID.
+	 * 
+	 * @param idUser -- Id que vem da URI da requisição
+	 * @return HTTP RESPONSE 200 (ok), e um json referente aos agendamentos do usuário registrados no banco
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/agendamentos")
+	public Response getAllAgendamentos(@PathParam("id") int idUser) {
+		List<Agendamento> resp = AgendamentoDAO.procurarAgendamentoByIdPessoaCliente(idUser);
+		ResponseBuilder response = Response.ok();
+		response.entity(resp);
+		return response.build();
+	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

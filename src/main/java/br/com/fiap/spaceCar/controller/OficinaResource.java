@@ -3,7 +3,9 @@ package br.com.fiap.spaceCar.controller;
 import java.net.URI;
 import java.util.List;
 
+import br.com.fiap.spaceCar.DAO.AgendamentoDAO;
 import br.com.fiap.spaceCar.DAO.OficinaDAO;
+import br.com.fiap.spaceCar.model.Agendamento;
 import br.com.fiap.spaceCar.model.Oficina;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -51,6 +53,21 @@ public class OficinaResource {
 		return response.build();
 	}
 
+	/** Método que consulta os agendamentos de uma determinada oficina através do ID dado.
+	 * 
+	 * @param id -- id dá oficina que deseja consultar vindo da URI da requisição
+	 * @return HTTP RESPONSE 200 (OK) - E os agendamentos do banco em JSON.
+	 * @author Jefferson
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/agendamentos")
+	public Response getAgendamentosById(@PathParam("id") int id) {
+		List<Agendamento> resp = AgendamentoDAO.procurarAgendamentoByIdOficina(id);
+		ResponseBuilder response = Response.ok();
+		response.entity(resp);
+		return response.build();
+	}
 	
 	/** Cria uma oficina dentro do BD baseado no json vindo do front.
 	 * 
