@@ -1,5 +1,6 @@
 package br.com.fiap.spaceCar.DAO;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,28 @@ import br.com.fiap.spaceCar.model.PessoaCliente;
 
 public class AgendamentoDAO extends Repository {
 
+	
+	/**
+	 * Método para retornar um id de um agendamento
+	 * 
+	 * @return número inteiro que será o id de um agendamento
+	 */
+	public static int retornarId() {
+		String sql = "select SQ_SPC_AGENDAMENTO.nextval from dual";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int retorno = 0;
+		try {
+			ps = getConnection().prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				retorno = rs.getInt("NEXTVAL");
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao tentar achar a sequência" + e.getMessage());
+		}
+		return retorno;
+	}
 	
 	/** Pega todos os registros de agendamento do nosso sistema
 	 * 
@@ -224,6 +247,41 @@ public class AgendamentoDAO extends Repository {
 		return agendamentos;
 	}
 	
-
+	
+	/** Método que salva um agendamento no banco de dados, retorna o objeto salvo no banco de dados.
+	 * 
+	 * @param a -- Objeto agendamento o qual será salvo em nosso DB.
+	 * @return objeto salvo no DB, com o ID setado.
+	 * @author Jefferson
+	 */
+	public static Agendamento save(Agendamento a) {
+		PreparedStatement ps = null;
+		Agendamento resp = null;
+		String sql = "INSERT INTO T_SPC_AGENDAMENTO (CD_AGENDAMENTO, CD_USUARIO, CD_OFICINA, DT_AGEND_INICIAL, DT_AGEND_FINAL)"
+				+ "VALUES (?,?,?,?,?)";
+		try {
+			ps = getConnection().prepareStatement(sql);
+			int id = retornarId();
+			ps.setInt(1, id);
+			ps.setInt(2, a.getCdUsuario());
+			ps.setInt(3, a.getCdOficina());
+			ps.setDate(4, Date.valueOf(a.getDtHorarioInicio()));
+			ps.setDate(5, Date.valueOf(a.getDtHorarioFim()));
+			ps.executeQuery();
+			resp = new Agendamento(id, a.getCdUsuario(), a.getCdOficina(), a.getDtHorarioInicio(), a.getDtHorarioFim());
+		} catch (SQLException e) {
+			System.out.println("Falha ao executar o statement: " + e.getMessage());
+		}finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao tentar fechar o Statment ou o ResultSet");
+			}
+			if (Repository.connection != null)
+				Repository.closeConnection();
+		}
+		return resp;
+	}
 	
 }
