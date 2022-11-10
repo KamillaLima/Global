@@ -78,12 +78,27 @@ public class PessoaClienteResource {
 		return response.build();
 	}
 	
+	/** Comando que lista todos os carros de um usuário baseado em seu ID.
+	 * 
+	 * @param idUser -- Parametro que vem da URI da requisição.
+	 * @return HTTP RESPONSE 200 (OK), e o JSON referente a lista de carros do usuário.
+	 * @author Jefferson
+	 */
+	@GET
+	@Produces
+	@Path("/{id}/carros")
+	public Response getCarsByIdUser(@PathParam("id")int idUser) {
+		List<Carro> resp = CarroDAO.getByUserId(idUser);
+		ResponseBuilder response = Response.ok();
+		response.entity(resp);
+		return response.build();
+	}
+	
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/login")
 	public Response verificar(PessoaCliente p) {
-		Usuario dados = p;
 		String email = p.getEmail();
 		String senha = p.getSenha();
 		Usuario resp = PessoaClienteDAO.getByEmailSenha(email, senha);
