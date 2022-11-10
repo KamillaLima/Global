@@ -1,67 +1,47 @@
 package br.com.fiap.spaceCar.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Agendamento {
 
 	private int cdAgendamento;
 	private int cdUsuario;
 	private int cdOficina;
-	private LocalDate dtHorarioInicio;
-	private LocalDate dtHorarioFim;
+	private LocalDateTime dtHorarioInicio;
+	private LocalDateTime dtHorarioFim;
 
-	public Agendamento(int cdAgendamento, int cdUsuario, int cdOficina, LocalDate dtHorarioInicio,
-			LocalDate dtHorarioFim) {
+	public Agendamento() {
+		super();
+	}
+
+	public Agendamento(int cdAgendamento, int cdUsuario, int cdOficina, LocalDateTime dtHorarioInicio,
+			LocalDateTime dtHorarioFim) {
 		super();
 		this.cdAgendamento = cdAgendamento;
 		this.cdUsuario = cdUsuario;
 		this.cdOficina = cdOficina;
 		this.dtHorarioInicio = dtHorarioInicio;
 		this.dtHorarioFim = dtHorarioFim;
-	}
-
-	public Agendamento() {
-		super();
 	}
 
 	public int getCdAgendamento() {
 		return cdAgendamento;
 	}
 
-	public void setCdAgendamento(int cdAgendamento) {
-		this.cdAgendamento = cdAgendamento;
-	}
-
 	public int getCdUsuario() {
 		return cdUsuario;
-	}
-
-	public void setCdUsuario(int cdUsuario) {
-		this.cdUsuario = cdUsuario;
 	}
 
 	public int getCdOficina() {
 		return cdOficina;
 	}
 
-	public void setCdOficina(int cdOficina) {
-		this.cdOficina = cdOficina;
-	}
-
-	public LocalDate getDtHorarioInicio() {
+	public LocalDateTime getDtHorarioInicio() {
 		return dtHorarioInicio;
 	}
 
-	public void setDtHorarioInicio(LocalDate dtHorarioInicio) {
-		this.dtHorarioInicio = dtHorarioInicio;
-	}
-
-	public LocalDate getDtHorarioFim() {
+	public LocalDateTime getDtHorarioFim() {
 		return dtHorarioFim;
-	}
-
-	public void setDtHorarioFim(LocalDate dtHorarioFim) {
-		this.dtHorarioFim = dtHorarioFim;
 	}
 
 	@Override
@@ -70,4 +50,5 @@ public class Agendamento {
 				+ ", dtHorarioInicio=" + dtHorarioInicio + ", dtHorarioFim=" + dtHorarioFim + "]";
 	}
 
+	
 }

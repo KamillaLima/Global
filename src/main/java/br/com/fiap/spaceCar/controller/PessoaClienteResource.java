@@ -106,7 +106,7 @@ public class PessoaClienteResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}/agendamentos")
 	public Response getAllAgendamentos(@PathParam("id") int idUser) {
-		List<Agendamento> resp = AgendamentoDAO.procurarAgendamentoByIdPessoaCliente(idUser);
+		List<Agendamento> resp = AgendamentoDAO.getByUserId(idUser);
 		ResponseBuilder response = Response.ok();
 		response.entity(resp);
 		return response.build();

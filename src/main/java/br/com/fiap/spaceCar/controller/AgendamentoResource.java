@@ -16,10 +16,27 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.UriBuilder;
 
-@Path("/agenda")
+@Path("/agendamento")
 public class AgendamentoResource {
 
-	
+	/** Salva um agendamento em nosso sistema.
+	 * 
+	 * @param a -- Objeto Agenda chega através do JSON do Front
+	 * @return HTTP RESPONSE 201 (CREATED), e o objeto salvo no DB.
+	 * @author Jefferson
+	 */
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response save(Agendamento a) {
+		Agendamento resp = AgendamentoDAO.save(a);
+		
+		final URI agendamentoUri = UriBuilder.fromResource(AgendamentoResource.class).path("/agendamento/{id}").build(resp.getCdAgendamento());
+		
+		ResponseBuilder response = Response.created(agendamentoUri);
+		response.entity(resp);
+		
+		return response.build();
+	}
 	
 	/** Função que pega todos os agendamentos presente no nosso banco de dados.
 	 * 
@@ -35,23 +52,6 @@ public class AgendamentoResource {
 		return response.build();
 	}
 	
-	
-	/** Método que salva um agendamento com os dados vindo do front.
-	 * 
-	 * @param a -- Json com os dados da classe Agendamento
-	 * @return HTTP RESPONSE 201 -- E a entidade que foi salva.
-	 * @author Jefferson
-	 */
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response save (Agendamento a) {
-		Agendamento resp =  AgendamentoDAO.save(a);
-		final URI agendamentoUri = UriBuilder.fromResource(AgendamentoResource.class).path("/agendamento/{id}").build(resp.getCdAgendamento());
-		ResponseBuilder response = Response.created(agendamentoUri);
-		response.entity(resp);
-		return response.build();
-	}
-	
 	/** Retora um único objeto Agendamento baseado no ID passado na URI
 	 * 
 	 * @param id -- vindo da URL da requisição, serve para filtrar qual objeto pegaremos
@@ -62,9 +62,11 @@ public class AgendamentoResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public Response getById (@PathParam("id") int id) {
-		Agendamento resp = AgendamentoDAO.procurarAgendamentoById(id);
+		Agendamento resp = AgendamentoDAO.getById(id);
 		ResponseBuilder response = Response.ok();
 		response.entity(resp);
 		return response.build();
 	}
+	
+	
 }

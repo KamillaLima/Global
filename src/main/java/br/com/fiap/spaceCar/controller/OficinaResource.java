@@ -63,7 +63,7 @@ public class OficinaResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}/agendamentos")
 	public Response getAgendamentosById(@PathParam("id") int id) {
-		List<Agendamento> resp = AgendamentoDAO.procurarAgendamentoByIdOficina(id);
+		List<Agendamento> resp = AgendamentoDAO.getByOficinaId(id);
 		ResponseBuilder response = Response.ok();
 		response.entity(resp);
 		return response.build();
