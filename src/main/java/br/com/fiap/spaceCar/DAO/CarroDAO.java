@@ -223,6 +223,7 @@ public class CarroDAO extends Repository {
 			rs = ps.executeQuery();
 			if (rs.isBeforeFirst()) {
 				while (rs.next()) {
+					int id = rs.getInt("CD_CARRO");
 					String placa = rs.getString("ds_placa");
 					LocalDate nr_ano_fabricacao = rs.getDate("nr_ano_fabricacao").toLocalDate();
 					LocalDate ano_modelo = rs.getDate("nr_ano_modelo").toLocalDate();
@@ -237,8 +238,7 @@ public class CarroDAO extends Repository {
 					int km_rodado = rs.getInt("nr_km_rodado");
 					String cambio = rs.getString("ds_cambio");
 					String problema = rs.getString("ds_problema");
-					Carro car = new Carro(placa, nr_ano_fabricacao, ano_modelo, chassi, marca, portas, passageiros,
-							combustivel, potencia, cilindradas, motor, km_rodado, cambio, problema);
+					Carro car = new Carro(id, placa, nr_ano_fabricacao, ano_modelo, chassi, marca, portas, passageiros, combustivel, potencia, cilindradas, motor, km_rodado, cambio, problema);
 					retorno.add(car);
 				}
 			} else {
