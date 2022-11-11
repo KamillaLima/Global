@@ -168,9 +168,9 @@ public class MarcarAgendamentoDAO extends Repository {
 	 * @author Jefferson
 	 */
 	public static MarcarAgendamento save(MarcarAgendamento a) {
-		PreparedStatement ps = null;
 		System.out.println(a);
 		int cdAgendamento = retornarId();
+		Statement st = null;
 		String dtInicio = "TO_DATE('" + a.getDtHorarioInicio().getDayOfMonth() + "/"
 				+ a.getDtHorarioInicio().getMonthValue() + "/" + a.getDtHorarioInicio().getYear() + " "
 				+ a.getDtHorarioInicio().getHour() + ":" + a.getDtHorarioInicio().getMinute()
@@ -183,7 +183,7 @@ public class MarcarAgendamentoDAO extends Repository {
 				+ a.getCdOficina() + "," + dtInicio + "," + dtFim + ")";
 		MarcarAgendamento retorno = null;
 		try {
-			Statement st = getConnection().createStatement();
+			st = getConnection().createStatement();
 			st.executeUpdate(sql);
 			int cdUsuario = a.getCdUsuario();
 			int cdOfocina = a.getCdOficina();
@@ -193,8 +193,8 @@ public class MarcarAgendamentoDAO extends Repository {
 			System.out.println("Erro ao executar o statement: " + e.getMessage());
 		} finally {
 			try {
-				if (ps != null)
-					ps.close();
+				if (st != null)
+					st.close();
 			} catch (SQLException e) {
 				System.out.println("Erro ao tentar fechar o Statment ou o ResultSet");
 			}
