@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -109,4 +110,22 @@ public class OficinaResource {
 		return response.build();
 	}
 	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Response atualizar(@PathParam("id") int id, Oficina o) {
+		Oficina velha = OficinaDAO.procurarOficinaId(id);
+		Oficina nova = null;
+		if (velha == null || velha.getId() != o.getId()) {
+			nova = OficinaDAO.inserirOficina(o);
+			final URI oficinaUri = UriBuilder.fromResource(OficinaResource.class).path("/oficina/{id}")
+					.build(nova.getId());
+			ResponseBuilder response = Response.created(oficinaUri);
+			response.entity(nova);
+			return response.build();
+		}
+		nova = OficinaDAO.alterarInfosOficina(o);
+		return Response.ok(nova).build();
+		
+	}
 }

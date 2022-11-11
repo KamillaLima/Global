@@ -9,7 +9,6 @@ import java.util.List;
 
 import br.com.fiap.spaceCar.model.Endereco;
 import br.com.fiap.spaceCar.model.Oficina;
-import br.com.fiap.spaceCar.model.PessoaCliente;
 
 public class OficinaDAO extends Repository {
 
@@ -48,7 +47,7 @@ public class OficinaDAO extends Repository {
 
 		CallableStatement cs = null;
 		System.out.println(o);
-		
+
 		Oficina retorno = null;
 		try {
 			int id = retornarId();
@@ -63,11 +62,8 @@ public class OficinaDAO extends Repository {
 			cs.setString(8, o.getTelefone());
 			cs.executeUpdate();
 
-			retorno = new Oficina(id, o.getNome(), o.getEndereco(), 
-					o.getDdd(), o.getTelefone(), 
-					o.getEmail(), o.getSenha(), 
-					o.getCnpj(), o.getDescricao());
-			
+			retorno = new Oficina(id, o.getNome(), o.getEndereco(), o.getDdd(), o.getTelefone(), o.getEmail(),
+					o.getSenha(), o.getCnpj(), o.getDescricao());
 
 		} catch (SQLException e) {
 			System.out.println("Erro na execução do SQL" + e.getMessage());
@@ -82,7 +78,7 @@ public class OficinaDAO extends Repository {
 				Repository.closeConnection();
 			}
 		}
-		
+
 		if (o.getEndereco() != null) {
 			Endereco ende = EnderecoDAO.inserirEndereco(o.getEndereco());
 			retorno.setEndereco(ende);
@@ -117,8 +113,7 @@ public class OficinaDAO extends Repository {
 					String descricao = rs.getString("ds_oficina");
 					String ddd = rs.getString("nr_ddd");
 					String telefone = rs.getString("nr_telefone");
-					
-					
+
 					oficinas.add(new Oficina(id, nome, null, ddd, telefone, email, senha, cnpj, descricao));
 				}
 			} else {
@@ -194,9 +189,10 @@ public class OficinaDAO extends Repository {
 		}
 		return null;
 	}
-	
-	
-	/** Retorna o Objeto Oficina, caso haja algum registro no BD com a senha e email dado
+
+	/**
+	 * Retorna o Objeto Oficina, caso haja algum registro no BD com a senha e email
+	 * dado
 	 * 
 	 * @param email vindo de um JSON do front
 	 * @param senha vindo de um JSON do front
@@ -215,9 +211,9 @@ public class OficinaDAO extends Repository {
 			rs = ps.executeQuery();
 			if (rs.isBeforeFirst()) {
 				while (rs.next()) {
-				retorno = procurarOficinaId(rs.getInt("CD_OFICINA")); 
+					retorno = procurarOficinaId(rs.getInt("CD_OFICINA"));
 				}
-			}else {
+			} else {
 				System.out.println("Nenhum usuário com esses dados foram encontrados.");
 				return retorno;
 			}
@@ -226,5 +222,44 @@ public class OficinaDAO extends Repository {
 		}
 		return retorno;
 	}
-	
+
+	/**
+	 * Método para atualizar uma oficina já existente
+	 * 
+	 * @param codigoOficina -- código que a oficina possui
+	 * @param novaOficina   -- informações que serão alteradas
+	 * @return -- objeto oficina
+	 */
+	public static Oficina alterarInfosOficina(Oficina novaOficina) {
+		PreparedStatement ps = null;
+		Oficina retorno = novaOficina;
+		String sql = "UPDATE t_spc_oficina\n"
+				+ "SET  nm_oficina = :v1 ,ds_email = :v2 ,ds_senha = :v3,nr_cnpj = :v4,ds_oficina = :v5,nr_ddd = :v6, nr_telefone = :v7 WHERE cd_oficina=?";
+		try {
+			ps = getConnection().prepareStatement(sql);
+			ps.setString(1, novaOficina.getNome());
+			ps.setString(2, novaOficina.getEmail());
+			ps.setString(3, novaOficina.getSenha());
+			ps.setString(4, novaOficina.getCnpj());
+			ps.setString(5, novaOficina.getDescricao());
+			ps.setString(6, novaOficina.getDdd());
+			ps.setString(7, novaOficina.getTelefone());
+			ps.setInt(8, novaOficina.getId());
+			ps.executeQuery();
+		} catch (SQLException e) {
+			System.out.println("Não foi possível conectar com o DB : " + e.getMessage());
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao tentar fechar o Statement " + e.getMessage());
+			}
+			if (Repository.connection != null) {
+				Repository.closeConnection();
+			}
+		}
+		return retorno;
+	}
+
 }
