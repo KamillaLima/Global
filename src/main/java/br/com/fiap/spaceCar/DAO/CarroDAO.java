@@ -113,6 +113,7 @@ public class CarroDAO extends Repository {
 			rs = ps.executeQuery();
 			if (rs.isBeforeFirst()) {
 				while (rs.next()) {
+					int id = rs.getInt("CD_USUARIO");
 					String placa = rs.getString("ds_placa");
 					LocalDate nr_ano_fabricacao = rs.getDate("nr_ano_fabricacao").toLocalDate();
 					LocalDate ano_modelo = rs.getDate("nr_ano_modelo").toLocalDate();
@@ -127,8 +128,8 @@ public class CarroDAO extends Repository {
 					int km_rodado = rs.getInt("nr_km_rodado");
 					String cambio = rs.getString("ds_cambio");
 					String problema = rs.getString("ds_problema");
-					carros.add(new Carro(placa, nr_ano_fabricacao, ano_modelo, chassi, marca, portas, passageiros,
-							combustivel, potencia, cilindradas, motor, km_rodado, cambio, problema));
+					Carro car = new Carro(id, placa, nr_ano_fabricacao, ano_modelo, chassi, marca, portas, passageiros, combustivel, potencia, cilindradas, motor, km_rodado, cambio, problema);
+					carros.add(car);
 				}
 			} else {
 				System.out.println("Nenhum carro foi cadastrado");
@@ -295,9 +296,8 @@ public class CarroDAO extends Repository {
 					int km_rodado = rs.getInt("nr_km_rodado");
 					String cambio = rs.getString("ds_cambio");
 					String problema = rs.getString("ds_problema");
-					retorno = new Carro(placa, nr_ano_fabricacao, ano_modelo, chassi, marca, portas, passageiros,
-							combustivel, potencia, cilindradas, motor, km_rodado, cambio, problema);
-					retorno.setId(id);
+					retorno = new Carro(id, placa, nr_ano_fabricacao, ano_modelo, chassi, marca, portas, passageiros, combustivel, potencia, cilindradas, motor, km_rodado, cambio, problema);
+					
 				}
 			} else {
 				System.out.println("Não foi encontrado nenhum registro com o id dado: " + idCar);
