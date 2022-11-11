@@ -3,9 +3,9 @@ package br.com.fiap.spaceCar.controller;
 import java.net.URI;
 import java.util.List;
 
-import br.com.fiap.spaceCar.DAO.AgendamentoDAO;
+import br.com.fiap.spaceCar.DAO.MarcarAgendamentoDAO;
 import br.com.fiap.spaceCar.DAO.OficinaDAO;
-import br.com.fiap.spaceCar.model.Agendamento;
+import br.com.fiap.spaceCar.model.MarcarAgendamento;
 import br.com.fiap.spaceCar.model.Oficina;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -63,7 +63,7 @@ public class OficinaResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}/agendamentos")
 	public Response getAgendamentosById(@PathParam("id") int id) {
-		List<Agendamento> resp = AgendamentoDAO.getByOficinaId(id);
+		List<MarcarAgendamento> resp = MarcarAgendamentoDAO.getByOficinaId(id);
 		ResponseBuilder response = Response.ok();
 		response.entity(resp);
 		return response.build();

@@ -3,11 +3,11 @@ package br.com.fiap.spaceCar.controller;
 import java.net.URI;
 import java.util.List;
 
-import br.com.fiap.spaceCar.DAO.AgendamentoDAO;
 import br.com.fiap.spaceCar.DAO.CarroDAO;
+import br.com.fiap.spaceCar.DAO.MarcarAgendamentoDAO;
 import br.com.fiap.spaceCar.DAO.PessoaClienteDAO;
-import br.com.fiap.spaceCar.model.Agendamento;
 import br.com.fiap.spaceCar.model.Carro;
+import br.com.fiap.spaceCar.model.MarcarAgendamento;
 import br.com.fiap.spaceCar.model.PessoaCliente;
 import br.com.fiap.spaceCar.model.Usuario;
 //import br.com.fiap.tads.ddd.coffe.controller.CoffeeResource;
@@ -106,7 +106,7 @@ public class PessoaClienteResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}/agendamentos")
 	public Response getAllAgendamentos(@PathParam("id") int idUser) {
-		List<Agendamento> resp = AgendamentoDAO.getByUserId(idUser);
+		List<MarcarAgendamento> resp = MarcarAgendamentoDAO.getByUserId(idUser);
 		ResponseBuilder response = Response.ok();
 		response.entity(resp);
 		return response.build();

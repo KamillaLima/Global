@@ -3,13 +3,14 @@ package br.com.fiap.spaceCar.DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.fiap.spaceCar.model.Agendamento;
+import br.com.fiap.spaceCar.model.MarcarAgendamento;
 
-public class AgendamentoDAO extends Repository {
+public class MarcarAgendamentoDAO extends Repository {
 
 	public static LocalDateTime converterData(String data) {
 		String[] arrayListStr = data.split(" ");
@@ -56,18 +57,19 @@ public class AgendamentoDAO extends Repository {
 		return retorno;
 	}
 
-	/** Pega todos os Agendamentos presentes na tabela agendamento
+	/**
+	 * Pega todos os Agendamentos presentes na tabela agendamento
 	 * 
 	 * @return ArrayList com os Agendamentos
 	 * @author Jefferson
 	 */
-	public static List<Agendamento> getAll() {
+	public static List<MarcarAgendamento> getAll() {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "SELECT CD_AGENDAMENTO, CD_USUARIO,\r\n" + "CD_OFICINA,\r\n"
 				+ "TO_CHAR(DT_AGEND_INICIAL, 'DD MM YYYY HH24 MM') as inicio, \r\n"
 				+ "TO_CHAR(DT_AGEND_FINAL, 'DD MM YYYY HH24 MM') as fim \r\n" + "FROM T_SPC_AGENDAMENTO";
-		List<Agendamento> retorno = new ArrayList<>();
+		List<MarcarAgendamento> retorno = new ArrayList<>();
 		try {
 			ps = getConnection().prepareStatement(sql);
 			rs = ps.executeQuery();
@@ -78,7 +80,8 @@ public class AgendamentoDAO extends Repository {
 					int cdOficina = rs.getInt("CD_OFICINA");
 					LocalDateTime dtInicio = converterData(rs.getString("inicio"));
 					LocalDateTime dtFim = converterData(rs.getString("fim"));
-					Agendamento agend = new Agendamento(cdAgendamento, cdUsuario, cdOficina, dtInicio, dtFim);
+					MarcarAgendamento agend = new MarcarAgendamento(cdAgendamento, cdUsuario, cdOficina, dtInicio,
+							dtFim);
 					retorno.add(agend);
 				}
 			} else {
@@ -102,20 +105,21 @@ public class AgendamentoDAO extends Repository {
 		return retorno;
 	}
 
-	/** Retorna um AGENDAMENTO através do ID dado.
+	/**
+	 * Retorna um AGENDAMENTO através do ID dado.
 	 * 
 	 * @param idAgendamento -- Vindo da URI da requisição
 	 * @return O agendamento vindo do id referente a URI.
 	 * @author Jefferson
-	 * 	 */
-	public static Agendamento getById(int idAgendamento) {
+	 */
+	public static MarcarAgendamento getById(int idAgendamento) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "SELECT CD_AGENDAMENTO, CD_USUARIO,\r\n" + "CD_OFICINA,\r\n"
 				+ "TO_CHAR(DT_AGEND_INICIAL, 'DD MM YYYY HH24 MM') as inicio, \r\n"
 				+ "TO_CHAR(DT_AGEND_FINAL, 'DD MM YYYY HH24 MM') as fim \r\n" + "FROM T_SPC_AGENDAMENTO\r\n"
 				+ "WHERE CD_AGENDAMENTO = ?";
-		Agendamento retorno = null;
+		MarcarAgendamento retorno = null;
 		try {
 			ps = getConnection().prepareStatement(sql);
 			ps.setInt(1, idAgendamento);
@@ -127,7 +131,7 @@ public class AgendamentoDAO extends Repository {
 					int cdOficina = rs.getInt("CD_OFICINA");
 					LocalDateTime dtInicio = converterData(rs.getString("inicio"));
 					LocalDateTime dtFim = converterData(rs.getString("fim"));
-					retorno = new Agendamento(cdAgendamento, cdUsuario, cdOficina, dtInicio, dtFim);
+					retorno = new MarcarAgendamento(cdAgendamento, cdUsuario, cdOficina, dtInicio, dtFim);
 				}
 			} else {
 				System.out.println("Não foi encontrado nenhum agendamento com esse ID");
@@ -149,33 +153,38 @@ public class AgendamentoDAO extends Repository {
 		return retorno;
 	}
 
-	/** Salvar um Agendamento em nosso DB
+	/**
+	 * Salvar um Agendamento em nosso DB
 	 * 
 	 * @param a -- Objeto Agendamento vindo do JSON do front.
 	 * @return Agendamento salvo, com o CD_Agendamento.
 	 * @author Jefferson
 	 */
-	public static Agendamento save (Agendamento a) {
+	public static MarcarAgendamento save(MarcarAgendamento a) {
 		PreparedStatement ps = null;
 		System.out.println(a);
-		String dtInicio = "TO_DATE('" + a.getDtHorarioInicio().getDayOfMonth() +"/" + a.getDtHorarioInicio().getMonthValue() + "/" + a.getDtHorarioInicio().getYear()+ " " 
-		+ a.getDtHorarioInicio().getHour() + ":" + a.getDtHorarioInicio().getMinute()+ "')"  ;
-		String dtFim = "TO_DATE('" + a.getDtHorarioFim().getDayOfMonth() +"/" + a.getDtHorarioFim().getMonthValue() + "/" + a.getDtHorarioFim().getYear()+ " " 
-				+ a.getDtHorarioFim().getHour() + ":" + a.getDtHorarioFim().getMinute()+ "')"  ;
-		String sql = "\r\n"
-				+ "INSERT INTO T_SPC_AGENDAMENTO (CD_AGENDAMENTO, CD_USUARIO, CD_OFICINA,\r\n"
-				+ "DT_AGEND_INICIAL, DT_AGEND_FINAL)\r\n"
-				+ "VALUES (?,?,?," + dtInicio + "," + dtFim + ")";
-		Agendamento retorno = null;
+		int cdAgendamento = retornarId();
+		String dtInicio = "TO_DATE('" + a.getDtHorarioInicio().getDayOfMonth() + "/"
+				+ a.getDtHorarioInicio().getMonthValue() + "/" + a.getDtHorarioInicio().getYear() + " "
+				+ a.getDtHorarioInicio().getHour() + ":" + a.getDtHorarioInicio().getMinute()
+				+ "', 'DD/MM/YYYY HH24:MI')";
+		String dtFim = "TO_DATE('" + a.getDtHorarioFim().getDayOfMonth() + "/" + a.getDtHorarioFim().getMonthValue()
+				+ "/" + a.getDtHorarioFim().getYear() + " " + a.getDtHorarioFim().getHour() + ":"
+				+ a.getDtHorarioFim().getMinute() + "', 'DD/MM/YYYY HH24:MI')";
+		String sql = "\r\n" + "INSERT INTO T_SPC_AGENDAMENTO (CD_AGENDAMENTO, CD_USUARIO, CD_OFICINA,\r\n"
+				+ "DT_AGEND_INICIAL, DT_AGEND_FINAL)\r\n" + "VALUES (" + cdAgendamento + "," + a.getCdUsuario() + ","
+				+ a.getCdOficina() + "," + dtInicio + "," + dtFim + ")";
+		MarcarAgendamento retorno = null;
 		try {
-			ps = getConnection().prepareStatement(sql);
-			int cdAgendamento = retornarId();
+			Statement st = getConnection().createStatement();
+			st.executeUpdate(sql);
 			int cdUsuario = a.getCdUsuario();
 			int cdOfocina = a.getCdOficina();
-			retorno = new Agendamento(cdAgendamento, cdUsuario, cdOfocina, a.getDtHorarioInicio(), a.getDtHorarioFim());
+			retorno = new MarcarAgendamento(cdAgendamento, cdUsuario, cdOfocina, a.getDtHorarioInicio(),
+					a.getDtHorarioFim());
 		} catch (SQLException e) {
 			System.out.println("Erro ao executar o statement: " + e.getMessage());
-		}finally {
+		} finally {
 			try {
 				if (ps != null)
 					ps.close();
@@ -187,21 +196,22 @@ public class AgendamentoDAO extends Repository {
 		}
 		return retorno;
 	}
-	
-	/** Pega todos os agendamentos de um usuário.
+
+	/**
+	 * Pega todos os agendamentos de um usuário.
 	 * 
 	 * @param idUser -- esperado que venha da URI da requisição.
 	 * @return List de Agendamentos.
 	 * @author Jefferson
 	 */
-	public static List<Agendamento> getByUserId(int idUser){
+	public static List<MarcarAgendamento> getByUserId(int idUser) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "SELECT CD_AGENDAMENTO, CD_USUARIO,\r\n" + "CD_OFICINA,\r\n"
 				+ "TO_CHAR(DT_AGEND_INICIAL, 'DD MM YYYY HH24 MM') as inicio, \r\n"
 				+ "TO_CHAR(DT_AGEND_FINAL, 'DD MM YYYY HH24 MM') as fim \r\n" + "FROM T_SPC_AGENDAMENTO\r\n"
 				+ "WHERE CD_USUARIO = ?";
-		List<Agendamento> retorno = new ArrayList<>();
+		List<MarcarAgendamento> retorno = new ArrayList<>();
 		try {
 			ps = getConnection().prepareStatement(sql);
 			ps.setInt(1, idUser);
@@ -213,7 +223,8 @@ public class AgendamentoDAO extends Repository {
 					int cdOficina = rs.getInt("CD_OFICINA");
 					LocalDateTime dtInicio = converterData(rs.getString("inicio"));
 					LocalDateTime dtFim = converterData(rs.getString("fim"));
-					Agendamento agend  = new Agendamento(cdAgendamento, cdUsuario, cdOficina, dtInicio, dtFim);
+					MarcarAgendamento agend = new MarcarAgendamento(cdAgendamento, cdUsuario, cdOficina, dtInicio,
+							dtFim);
 					retorno.add(agend);
 				}
 			} else {
@@ -235,22 +246,22 @@ public class AgendamentoDAO extends Repository {
 		}
 		return retorno;
 	}
-	
-	
-	/** Pega todos os agendamentos de uma Oficina.
+
+	/**
+	 * Pega todos os agendamentos de uma Oficina.
 	 * 
 	 * @param idOfc -- esperado que venha da URI da requisição.
 	 * @return List de Agendamentos.
 	 * @author Jefferson
 	 */
-	public static List<Agendamento> getByOficinaId(int idOfc){
+	public static List<MarcarAgendamento> getByOficinaId(int idOfc) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "SELECT CD_AGENDAMENTO, CD_USUARIO,\r\n" + "CD_OFICINA,\r\n"
 				+ "TO_CHAR(DT_AGEND_INICIAL, 'DD MM YYYY HH24 MM') as inicio, \r\n"
 				+ "TO_CHAR(DT_AGEND_FINAL, 'DD MM YYYY HH24 MM') as fim \r\n" + "FROM T_SPC_AGENDAMENTO\r\n"
 				+ "WHERE CD_OFICINA = ?";
-		List<Agendamento> retorno = new ArrayList<>();
+		List<MarcarAgendamento> retorno = new ArrayList<>();
 		try {
 			ps = getConnection().prepareStatement(sql);
 			ps.setInt(1, idOfc);
@@ -262,7 +273,8 @@ public class AgendamentoDAO extends Repository {
 					int cdOficina = rs.getInt("CD_OFICINA");
 					LocalDateTime dtInicio = converterData(rs.getString("inicio"));
 					LocalDateTime dtFim = converterData(rs.getString("fim"));
-					Agendamento agend  = new Agendamento(cdAgendamento, cdUsuario, cdOficina, dtInicio, dtFim);
+					MarcarAgendamento agend = new MarcarAgendamento(cdAgendamento, cdUsuario, cdOficina, dtInicio,
+							dtFim);
 					retorno.add(agend);
 				}
 			} else {
@@ -281,6 +293,42 @@ public class AgendamentoDAO extends Repository {
 			}
 			if (Repository.connection != null)
 				Repository.closeConnection();
+		}
+		return retorno;
+	}
+
+	
+	/** Exclui um agendamento no Banco de dados;
+	 * 
+	 * @param id -- Vindo da requisição da URI
+	 * @return boolean: True se encontrar algo com esse ID e false caso não encontre nada.
+	 * @author Jefferson
+	 */
+	public static boolean excluir(int id) {
+		boolean retorno = false;
+		PreparedStatement ps = null;
+		MarcarAgendamento agend = MarcarAgendamentoDAO.getById(id);
+		String sql = "DELETE FROM T_SPC_AGENDAMENTO WHERE CD_AGENDAMENTO = ?";
+		if (agend == null) {
+			System.out.println("Nenhum agendamento encontrado com esse ID");
+			return retorno;
+		} else {
+			try {
+				ps = getConnection().prepareStatement(sql);
+				ps.setInt(1, id);
+				ps.executeUpdate();
+				retorno = true;
+			} catch (SQLException e) {
+				System.out.println("Não foi possível executar o statement: " + e.getMessage());
+			} finally {
+				if (ps != null)
+					try {
+						ps.close();
+					} catch (SQLException e) {
+						System.out.println("Erro ao fechar o Prepared Statement: " + e.getMessage());
+					}
+			}
+
 		}
 		return retorno;
 	}
