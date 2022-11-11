@@ -69,7 +69,7 @@ public class PessoaClienteResource {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
+	@Path("/{id}/carros")
 	public Response save(@PathParam("id") int id,Carro c) {
 		Carro resp = CarroDAO.inserirCarro(id, c);
 		
