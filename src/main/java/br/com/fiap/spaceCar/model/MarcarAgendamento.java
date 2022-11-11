@@ -2,15 +2,29 @@ package br.com.fiap.spaceCar.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class MarcarAgendamento {
 	private int cdAgendamento;
+	@NotBlank(message = "é necessário informar um código para o usuário.")
 	private int cdUsuario;
+	@NotBlank(message = "é necessário informar um código para a oficina.")
 	private int cdOficina;
+	@NotNull(message = "é necessário informar uma data de inicio.")
+	@FutureOrPresent
 	private LocalDateTime dtHorarioInicio;
+	@NotNull(message = "é necessário informar uma data para o termino.")
+	@Future
 	private LocalDateTime dtHorarioFim;
 
-	public MarcarAgendamento(int cdAgendamento, int cdUsuario, int cdOficina, LocalDateTime dtHorarioInicio,
-			LocalDateTime dtHorarioFim) {
+	public MarcarAgendamento(int cdAgendamento,
+			@NotBlank(message = "é necessário informar um código para o usuário.") int cdUsuario,
+			@NotBlank(message = "é necessário informar um código para a oficina.") int cdOficina,
+			@NotNull(message = "é necessário informar uma data de inicio.") @FutureOrPresent LocalDateTime dtHorarioInicio,
+			@NotNull(message = "é necessário informar uma data para o termino.") @Future LocalDateTime dtHorarioFim) {
 		super();
 		this.cdAgendamento = cdAgendamento;
 		this.cdUsuario = cdUsuario;

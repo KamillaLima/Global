@@ -18,6 +18,11 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 @Path("/endereco")
 public class EnderecoResource {
 
+	/** Pega todos os endereços do nosso sistema
+	 * 
+	 * @return JSON com todos os endereços. HTTP RESPONSE 200
+	 * @author Jefferson
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findAll() {

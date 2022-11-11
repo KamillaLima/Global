@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.fiap.spaceCar.DAO.CarroDAO;
 import br.com.fiap.spaceCar.model.Carro;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PUT;
@@ -48,7 +49,7 @@ public class CarroResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Response save(@PathParam("id") int id, Carro c){
+	public Response save(@PathParam("id") int id, @Valid Carro c){
 		Carro velho = c;
 		System.out.println(velho.getId());
 		Carro novo = null;

@@ -12,6 +12,13 @@ import br.com.fiap.spaceCar.model.MarcarAgendamento;
 
 public class MarcarAgendamentoDAO extends Repository {
 
+	
+	/** Pega uma string e a transforma em data
+	 * 
+	 * @param data -- String no formato: DD MM YYYY HH24 MI
+	 * @return LocalDateTime
+	 * @author Jefferson
+	 */
 	public static LocalDateTime converterData(String data) {
 		String[] arrayListStr = data.split(" ");
 		int dia = Integer.parseInt(arrayListStr[0]);

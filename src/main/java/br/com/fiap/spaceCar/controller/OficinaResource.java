@@ -7,6 +7,7 @@ import br.com.fiap.spaceCar.DAO.MarcarAgendamentoDAO;
 import br.com.fiap.spaceCar.DAO.OficinaDAO;
 import br.com.fiap.spaceCar.model.MarcarAgendamento;
 import br.com.fiap.spaceCar.model.Oficina;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -79,7 +80,7 @@ public class OficinaResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response save(Oficina o) {
+	public Response save(@Valid Oficina o) {
 		Oficina resp = OficinaDAO.inserirOficina(o);
 
 		final URI ofcinaUri = UriBuilder.fromResource(OficinaResource.class).path("/oficina/{id}").build(resp.getId());

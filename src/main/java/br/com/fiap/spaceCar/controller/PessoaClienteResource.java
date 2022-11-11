@@ -10,6 +10,7 @@ import br.com.fiap.spaceCar.model.Carro;
 import br.com.fiap.spaceCar.model.MarcarAgendamento;
 import br.com.fiap.spaceCar.model.PessoaCliente;
 import br.com.fiap.spaceCar.model.Usuario;
+import jakarta.validation.Valid;
 //import br.com.fiap.tads.ddd.coffe.controller.CoffeeResource;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -34,7 +35,7 @@ public class PessoaClienteResource {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response save (PessoaCliente pessoa) {
+	public Response save (@Valid PessoaCliente pessoa) {
 		//System.out.println(pessoa);
 		
 		
