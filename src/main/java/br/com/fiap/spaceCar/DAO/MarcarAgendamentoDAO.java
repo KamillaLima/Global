@@ -170,6 +170,7 @@ public class MarcarAgendamentoDAO extends Repository {
 	public static MarcarAgendamento save(MarcarAgendamento a) {
 		System.out.println(a);
 		int cdAgendamento = retornarId();
+		System.out.println(cdAgendamento);
 		Statement st = null;
 		String dtInicio = "TO_DATE('" + a.getDtHorarioInicio().getDayOfMonth() + "/"
 				+ a.getDtHorarioInicio().getMonthValue() + "/" + a.getDtHorarioInicio().getYear() + " "

@@ -72,7 +72,9 @@ public class PessoaClienteResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{id}/carros")
 	public Response save(@PathParam("id") int id,Carro c) {
+		System.out.println(c);
 		Carro resp = CarroDAO.inserirCarro(id, c);
+		System.out.println(resp);
 		
 		final URI carroUri = UriBuilder.fromResource(PessoaClienteResource.class).path("/carro/{id}")
 				.build(resp.getId());
